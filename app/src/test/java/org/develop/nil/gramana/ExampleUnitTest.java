@@ -5,7 +5,9 @@ import org.junit.Test;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
+import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
 
 /**
@@ -15,13 +17,13 @@ public class ExampleUnitTest {
 
     @Test
     public void testPermutations () {
-        final String word = "h-o-u-s-e";
-        final Collection<List<String>> permutations = Scrambler.permute(word, '-', ' ');
+        final String word = "a-b-c";
+        final Set<String> permutations = Scrambler.permute(word, "", Character.MIN_VALUE);
 
-        System.out.format("Extracted %d permutations\n", permutations.size());
+        System.out.format("Extracted %d permutation(s)\n", permutations.size());
 
-        for (List<String> i: permutations) {
-            System.out.println(i.toString());
+        for (String s: permutations) {
+            System.out.println(s);
         }
     }
 
