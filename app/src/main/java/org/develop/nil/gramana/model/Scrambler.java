@@ -12,11 +12,10 @@ public class Scrambler {
 
     public static Set<String> permute (String s, String inSeparator, char outSeparator) {
         final List<String> tokens = new ArrayList<String>(Arrays.asList(s.split(String.valueOf(inSeparator))));
-        //We don't want elements to be repeated, so we use a Set implementation.
-        final Set<String> permutations = new TreeSet<String>();
+        final Set<String> permutations = new TreeSet<String>(); //We don't want elements to be repeated, so we use a Set implementation.
 
         for (List<String> p: CollectionUtils.permutations(tokens)) {
-            //TO-DO Try to find a more elegant solution for populating than this. Have a look at newer Java features for iterations.
+            //TO-DO Try to find a more elegant solution for populating this. Have a look at newer Java features for iterations.
             permutations.add(listToString(p, outSeparator));
         }
 
@@ -30,7 +29,7 @@ public class Scrambler {
         for (int i = 0; i < listSize; i++) {
             result += l.get(i);
 
-            if ((listSize - i) > 1) {   //If we haven't reached the last element yet.
+            if ((listSize - i) > 1) {   //If we haven't reached the last element yet:
                 result += outSeparator;
             }
         }
