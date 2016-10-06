@@ -13,7 +13,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         final Intent i = new Intent(this, PermutationsActivity.class);
-        i.putExtra(PermutationsActivity.PARAM_PERMUTATION_STRING, "A-na-gram-ma");
+        i.putExtra(PermutationsActivity.PARAM_PERMUTATION_STRING, "A-na-GRAM-ma");
         i.putExtra(PermutationsActivity.PARAM_OUT_SEP, '-');
 
         startActivity(i);

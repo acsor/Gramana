@@ -17,7 +17,7 @@ public class ExampleUnitTest {
 
     @Test
     public void testPermutations () {
-        final String word = "a-na-gram";
+        final String word = "A-na-gram";
         final Set<String> permutations = Scrambler.permute(word, "-", '-');
 
         System.out.format("Extracted %d permutation(s)\n", permutations.size());
