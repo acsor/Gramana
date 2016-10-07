@@ -28,8 +28,8 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void additionisCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+    public void testValueOf() throws Exception {
+        System.out.format("Printing %s\n", String.valueOf(null)); //It is going to throw an exception
     }
 
 }

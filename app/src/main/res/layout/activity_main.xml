@@ -17,7 +17,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+
         android:hint="@string/separate_by_defaults"
+        android:capitalize="none"
+        android:lines="1"
+        android:maxLength="@integer/activity_main_max_et"
         />
 
     <Button
@@ -26,7 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_above="@id/activity_main_et"
+
             android:text="@string/permute"
+            android:enabled="true"
         />
 
 </RelativeLayout>

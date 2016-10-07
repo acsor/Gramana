@@ -46,7 +46,7 @@ public class PermutationsActivity extends ListActivity {
 
         mAdapter = new ArrayAdapter<String>(this, R.layout.adapter_permutation);
 
-        setTitle(String.format("%s \"%s\"", getResources().getString(R.string.permutations_for), mPermutationString.replace(mInSep, "")));
+        setTitle(String.format("%s \"%s\"", getResources().getString(R.string.permutations_for), mPermutationString.replace(mInSep, String.valueOf(mOutSep))));
 
         //TO-DO Try to populate mAdapter in another thread
         mAdapter.addAll(Scrambler.permute(mPermutationString, mInSep, mOutSep));

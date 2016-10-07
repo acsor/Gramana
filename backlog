@@ -1,2 +1,5 @@
+Add restraints to MainActivity's EditText:
+    Add listener to MainActivity's EditText for disabling the button when ET is empty
+    Add check to MainActivity's EditText for limiting syllables number
 Add EditText and Button to MainActivity to send a string to PermutationsActivity
 Add coloring PermutationsActivity's results to syllables
