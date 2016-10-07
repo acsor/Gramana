@@ -11,4 +11,22 @@
         tools:context=".activity.MainActivity"
         >
 
+    <EditText
+        android:id="@+id/activity_main_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:hint="@string/separate_by_defaults"
+        />
+
+    <Button
+            android:id="@+id/activity_main_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_above="@id/activity_main_et"
+            android:text="@string/permute"
+        />
+
 </RelativeLayout>

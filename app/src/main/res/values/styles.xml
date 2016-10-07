@@ -1,25 +1,33 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="ThemeOverlay.AppCompat.Dark">
+    <style name="AppBaseTheme" parent="Theme.AppCompat" />
+
+    <style name="AppTheme" parent="@style/AppBaseTheme">
         <!-- Customize your theme here. -->
+        <item name="android:textColor">#CCC</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
 
+        <item name="android:textSize">@dimen/size_text_medium</item>
+
+        <item name="android:buttonStyle">@android:style/Widget.Holo.Button.Borderless</item>
+        <item name="android:editTextStyle">@android:style/Widget.Holo.EditText</item>
         <item name="android:textViewStyle">@style/textViewStyle</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:toolbarStyle" tools:targetApi="lollipop">@style/toolbarStyle</item>
-    </style>
-
     <style name="textViewStyle">
-        <item name="android:textColor">#FFF</item>
         <item name="android:textSize">@dimen/size_text_medium</item>
         <item name="android:padding">@dimen/size_padding_medium</item>
+    </style>
+
+    <style name="editTextStyle">
+        <item name="android:textSize">@dimen/size_text_medium</item>
+    </style>
+
+    <style name="buttonStyle">
+        <item name="android:textSize">@dimen/size_text_medium</item>
     </style>
 
     <style name="toolbarStyle">

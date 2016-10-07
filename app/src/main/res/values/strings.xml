@@ -5,5 +5,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="default_sep"> </string>
+    <string name="ok_uppercase">OK</string>
+    <string name="permute">Permute</string>
     <string name="permutations_for">Permutations for</string>
+    <string name="separate_by_defaults">Separate by space</string>
 </resources>

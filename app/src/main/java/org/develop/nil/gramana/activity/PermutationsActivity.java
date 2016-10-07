@@ -44,13 +44,7 @@ public class PermutationsActivity extends ListActivity {
 
         mOutSep = i.getCharExtra(PARAM_OUT_SEP, ATTR_DEFAULT_OUT_SEP);
 
-        mAdapter = new ArrayAdapter<String>(this, R.layout.adapter_permutation) {
-            @Override
-            public String getItem (int position) {
-                final String result = super.getItem(position);
-                return result.substring(0, 1).toUpperCase() + result.substring(1, result.length());
-            }
-        };
+        mAdapter = new ArrayAdapter<String>(this, R.layout.adapter_permutation);
 
         setTitle(String.format("%s \"%s\"", getResources().getString(R.string.permutations_for), mPermutationString.replace(mInSep, "")));
 

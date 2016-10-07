@@ -41,7 +41,7 @@ public class Scrambler {
             }
         }
 
-        return result.toLowerCase();
+        return result;
     }
 
 }
