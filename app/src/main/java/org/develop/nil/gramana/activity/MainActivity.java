@@ -52,7 +52,7 @@ public class MainActivity extends Activity
         if (v.getId() == mETButton.getId()) {
             launchPermutationsActivity(
                     "" + mEditText.getText().toString(),
-                    " ",
+                    PermutationsActivity.ATTR_WHITESPACE_IN_SEP,
                     PermutationsActivity.ATTR_DEFAULT_OUT_SEP
             );
         }

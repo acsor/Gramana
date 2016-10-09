@@ -1,2 +1,1 @@
-Add first EditText and Button's prototypes to MainActivity
-Change PermutationsActivity's title style
+Add check to PermutationsActivity's onCreate for limiting the number of syllables
