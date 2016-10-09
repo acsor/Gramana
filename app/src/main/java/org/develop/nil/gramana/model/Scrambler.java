@@ -18,7 +18,7 @@ public class Scrambler {
      * @return a <b>Set</b> of unrepeated <b>String</b>s all set to lower case
      */
     public static Set<String> permute (String s, String inSeparator, char outSeparator) {
-        final List<String> tokens = new ArrayList<String>(Arrays.asList(s.split(String.valueOf(inSeparator))));
+        final List<String> tokens = new ArrayList<String>(Arrays.asList(s.split(inSeparator)));
         final Set<String> permutations = new TreeSet<String>(); //We don't want elements to be repeated, so we use a Set implementation.
 
         for (List<String> p: CollectionUtils.permutations(tokens)) {

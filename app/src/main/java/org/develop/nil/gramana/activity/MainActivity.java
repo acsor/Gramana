@@ -1,21 +1,28 @@
 package org.develop.nil.gramana.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import org.develop.nil.gramana.R;
+import org.develop.nil.gramana.model.InputValidator;
 
 public class MainActivity extends Activity
     implements View.OnClickListener,
-        TextView.OnEditorActionListener {
+        TextWatcher {
 
     private EditText mEditText;
     private Button mETButton;
+    private PermutationsActivity.InputStringValidator mETInputValidator;
+    private boolean mLastTimeNotMe = true;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -24,27 +31,10 @@ public class MainActivity extends Activity
 
         mEditText = (EditText) findViewById(R.id.activity_main_et);
         mETButton = (Button) findViewById(R.id.activity_main_b);
+        mETInputValidator = new EditTextInputValidator(this, PermutationsActivity.ATTR_WHITESPACE_IN_SEP);
 
-        mEditText.setOnEditorActionListener(this);
+        mEditText.addTextChangedListener(this);
         mETButton.setOnClickListener(this);
-    }
-
-    @Override
-    /*
-    TODO This method is called when the user finishes editing, not on each character modification.
-    The latter is the event on which we want our callback function to be executed. Should change this.
-     */
-    public boolean onEditorAction (TextView v, int actionId, KeyEvent event) {
-        if (mEditText.getText().length() == 0) {
-            mETButton.setActivated(false);
-            return true;
-        }
-        else if (mEditText.getText().length() != 0) {
-            mETButton.setActivated(true);
-            return true;
-        }
-
-        return false;
     }
 
     @Override
@@ -66,6 +56,47 @@ public class MainActivity extends Activity
         i.putExtra(PermutationsActivity.PARAM_OUT_SEP, outSep);
 
         startActivity(i);
+    }
+
+    @Override
+    public void beforeTextChanged (CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged (CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged (Editable s) {
+        if (s.toString().matches("\\s*")) { //If this Editable instance is empty:
+            mETButton.setEnabled(false);
+            mLastTimeNotMe = true;
+        } else if (!mETInputValidator.isInputValid(s.toString())) { //Else, if the input is not valid by the check from PermutationsActivity:
+            mETButton.setEnabled(false);
+
+            if (mLastTimeNotMe) {
+                Toast.makeText(
+                        this,
+                        mETInputValidator.getErrorMessage(),
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+
+            mLastTimeNotMe = false;
+        } else {
+            mETButton.setEnabled(true);
+            mLastTimeNotMe = true;
+        }
+    }
+
+    public static class EditTextInputValidator extends PermutationsActivity.InputStringValidator {
+
+        public EditTextInputValidator (Context c, String inputSep) {
+            super(c, inputSep);
+        }
+
     }
 
 }

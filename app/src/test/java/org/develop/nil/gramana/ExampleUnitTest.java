@@ -19,8 +19,8 @@ public class ExampleUnitTest {
 
     @Test
     public void testPermutations () {
-        final String word = "A-na-gram";
-        final Set<String> permutations = Scrambler.permute(word, "-", '-');
+        final String word = "A na gram";
+        final Set<String> permutations = Scrambler.permute(word, "\\s", '-');
 
         System.out.format("Extracted %d permutation(s)\n", permutations.size());
 
@@ -30,8 +30,8 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void testValueOf() throws Exception {
-        System.out.format("Printing %s\n", String.valueOf(null)); //It is going to throw an exception
+    public void testValueOf () throws Exception {
+        System.out.format("Printing %s\n", String.valueOf(null)); //This is going to throw an exception
     }
 
     @Test

@@ -1,1 +1,3 @@
-Add check to PermutationsActivity's onCreate for limiting the number of syllables
+Add a TextWatcher to MainActivity's EditText for disabling the button when ET is empty
+Add a TextWatcher to MainActivity's EditText for limiting the number of syllables
+Change PermutationsActivity's title style to include number of elements

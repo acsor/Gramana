@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import org.develop.nil.gramana.R;
@@ -18,8 +17,8 @@ import org.develop.nil.gramana.model.Scrambler;
  */
 public class PermutationsActivity extends ListActivity {
 
-    public static final String ATTR_DEFAULT_IN_SEP = "-";
-    public static final String ATTR_WHITESPACE_IN_SEP = "\\s";
+    public static final String ATTR_WHITESPACE_IN_SEP = "\\s+?";
+    public static final String ATTR_DEFAULT_IN_SEP = ATTR_WHITESPACE_IN_SEP;
     public static final char ATTR_DEFAULT_OUT_SEP = '-';
 
     public static final String PARAM_PERMUTATION_STRING = "0";
@@ -39,7 +38,6 @@ public class PermutationsActivity extends ListActivity {
 
         final Intent i = getIntent();
         final InputValidator<String> v;
-        final Toast errorMessageToast;
 
         mPermutationString = i.getStringExtra(PARAM_PERMUTATION_STRING);
         mPermutationString = (mPermutationString == null) ? "": mPermutationString;
@@ -67,7 +65,7 @@ public class PermutationsActivity extends ListActivity {
 
         mAdapter = new ArrayAdapter<String>(this, R.layout.adapter_permutation);
 
-        setTitle(String.format("%s \"%s\"", getResources().getString(R.string.permutations_for), mPermutationString.replace(mInSep, String.valueOf(mOutSep))));
+        setTitle(String.format("%s \"%s\"", getResources().getString(R.string.permutations_for_uc), mPermutationString.replace(mInSep, String.valueOf(mOutSep))));
 
         //TO-DO Try to populate mAdapter in another thread
         mAdapter.addAll(Scrambler.permute(mPermutationString, mInSep, mOutSep));
@@ -78,6 +76,13 @@ public class PermutationsActivity extends ListActivity {
         super.onResume();
 
         setListAdapter(mAdapter);
+        //TODO Be careful about this statement. Perhaps it could be safer to insert it into a Loader callback method
+        setTitle(String.format(
+                "%d %s \"%s\"",
+                mAdapter.getCount(),
+                getResources().getString(R.string.permutations_for_lc),
+                mPermutationString.replace(mInSep, String.valueOf(mOutSep)))
+        );
     }
 
     public static class InputStringValidator implements InputValidator<String> {
@@ -85,7 +90,7 @@ public class PermutationsActivity extends ListActivity {
         public static final int  ATTR_MAX_SYLLABLES = 7;
 
         private Context mContext;
-        private String mInputSep;
+        protected String mInputSep;
 
         public InputStringValidator (Context c, String inputSep) {
             mContext = c;
