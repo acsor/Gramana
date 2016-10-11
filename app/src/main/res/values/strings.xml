@@ -19,5 +19,5 @@
     <string name="permute">Permute</string>
     <string name="permutations_for_uc">Permutations for</string>
     <string name="permutations_for_lc">permutations for</string>
-    <string name="separate_by_defaults">Separate syllables by space</string>
+    <string name="separate_by_defaults">Separate by space</string>
 </resources>

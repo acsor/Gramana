@@ -1,2 +1,2 @@
-Add fix: move syllables check from TextWatcher to the Button's callback method
-Add a brief written presentation to MainActivity
+Add back navigation to PermutationsActivity
+Change hint to MainActivity's EditText

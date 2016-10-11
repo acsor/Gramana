@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import org.develop.nil.gramana.R;
@@ -65,10 +66,22 @@ public class PermutationsActivity extends ListActivity {
 
         mAdapter = new ArrayAdapter<String>(this, R.layout.adapter_permutation);
 
+        getActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
         setTitle(String.format("%s \"%s\"", getResources().getString(R.string.permutations_for_uc), mPermutationString.replace(mInSep, String.valueOf(mOutSep))));
 
         //TO-DO Try to populate mAdapter in another thread
         mAdapter.addAll(Scrambler.permute(mPermutationString, mInSep, mOutSep));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
