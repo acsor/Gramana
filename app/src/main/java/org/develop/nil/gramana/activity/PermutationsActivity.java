@@ -1,6 +1,7 @@
 package org.develop.nil.gramana.activity;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -42,7 +43,6 @@ public class PermutationsActivity extends ListActivity {
         mPermutationString = i.getStringExtra(PARAM_PERMUTATION_STRING);
         mPermutationString = (mPermutationString == null) ? "": mPermutationString;
 
-        //TO-DO Handle mInSep and mOutSep variables initialization
         mInSep = i.getStringExtra(PARAM_IN_SEP);
         mInSep = mInSep == null ? ATTR_DEFAULT_IN_SEP: mInSep;
 

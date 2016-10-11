@@ -22,7 +22,6 @@ public class MainActivity extends Activity
     private EditText mEditText;
     private Button mETButton;
     private PermutationsActivity.InputStringValidator mETInputValidator;
-    private boolean mLastTimeNotMe = true;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -39,12 +38,24 @@ public class MainActivity extends Activity
 
     @Override
     public void onClick (View v) {
+        final String inputString;
+
         if (v.getId() == mETButton.getId()) {
-            launchPermutationsActivity(
-                    "" + mEditText.getText().toString(),
-                    PermutationsActivity.ATTR_WHITESPACE_IN_SEP,
-                    PermutationsActivity.ATTR_DEFAULT_OUT_SEP
-            );
+            inputString = "" + mEditText.getText().toString();
+
+            if (mETInputValidator.isInputValid(inputString)) { //If our inputString is valid
+                launchPermutationsActivity(
+                        inputString,
+                        PermutationsActivity.ATTR_WHITESPACE_IN_SEP,
+                        PermutationsActivity.ATTR_DEFAULT_OUT_SEP
+                );
+            } else {
+                Toast.makeText(
+                        this,
+                        mETInputValidator.getErrorMessage(),
+                        Toast.LENGTH_LONG
+                ).show();
+            }
         }
     }
 
@@ -72,22 +83,8 @@ public class MainActivity extends Activity
     public void afterTextChanged (Editable s) {
         if (s.toString().matches("\\s*")) { //If this Editable instance is empty:
             mETButton.setEnabled(false);
-            mLastTimeNotMe = true;
-        } else if (!mETInputValidator.isInputValid(s.toString())) { //Else, if the input is not valid by the check from PermutationsActivity:
-            mETButton.setEnabled(false);
-
-            if (mLastTimeNotMe) {
-                Toast.makeText(
-                        this,
-                        mETInputValidator.getErrorMessage(),
-                        Toast.LENGTH_LONG
-                ).show();
-            }
-
-            mLastTimeNotMe = false;
         } else {
             mETButton.setEnabled(true);
-            mLastTimeNotMe = true;
         }
     }
 
