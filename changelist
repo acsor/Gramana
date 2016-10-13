@@ -1,2 +1,1 @@
-Add back navigation to PermutationsActivity
-Change hint to MainActivity's EditText
+Change MainActivity's outSep argument to PermutationsActivity to white space

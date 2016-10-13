@@ -19,9 +19,10 @@ import org.develop.nil.gramana.model.Scrambler;
  */
 public class PermutationsActivity extends ListActivity {
 
-    public static final String ATTR_WHITESPACE_IN_SEP = "\\s+?";
-    public static final String ATTR_DEFAULT_IN_SEP = ATTR_WHITESPACE_IN_SEP;
-    public static final char ATTR_DEFAULT_OUT_SEP = '-';
+    public static final String ATTR_IN_SEP_WHITESPACE = "\\s+?";
+    public static final char ATTR_OUT_SEP_WHITESPACE = ' ';
+    public static final String ATTR_IN_SEP_DEFAULT = ATTR_IN_SEP_WHITESPACE;
+    public static final char ATTR_OUT_SEP_DEFAULT = '-';
 
     public static final String PARAM_PERMUTATION_STRING = "0";
     public static final String PARAM_IN_SEP = "1";
@@ -45,7 +46,7 @@ public class PermutationsActivity extends ListActivity {
         mPermutationString = (mPermutationString == null) ? "": mPermutationString;
 
         mInSep = i.getStringExtra(PARAM_IN_SEP);
-        mInSep = mInSep == null ? ATTR_DEFAULT_IN_SEP: mInSep;
+        mInSep = mInSep == null ? ATTR_IN_SEP_DEFAULT : mInSep;
 
         //Checking input data
         v = new InputStringValidator(this, mInSep);
@@ -62,7 +63,7 @@ public class PermutationsActivity extends ListActivity {
             return;
         }
 
-        mOutSep = i.getCharExtra(PARAM_OUT_SEP, ATTR_DEFAULT_OUT_SEP);
+        mOutSep = i.getCharExtra(PARAM_OUT_SEP, ATTR_OUT_SEP_DEFAULT);
 
         mAdapter = new ArrayAdapter<String>(this, R.layout.adapter_permutation);
 

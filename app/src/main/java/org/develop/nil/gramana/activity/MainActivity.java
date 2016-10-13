@@ -6,14 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 import org.develop.nil.gramana.R;
-import org.develop.nil.gramana.model.InputValidator;
 
 public class MainActivity extends Activity
     implements View.OnClickListener,
@@ -30,7 +27,7 @@ public class MainActivity extends Activity
 
         mEditText = (EditText) findViewById(R.id.activity_main_et);
         mETButton = (Button) findViewById(R.id.activity_main_b);
-        mETInputValidator = new EditTextInputValidator(this, PermutationsActivity.ATTR_WHITESPACE_IN_SEP);
+        mETInputValidator = new EditTextInputValidator(this, PermutationsActivity.ATTR_IN_SEP_WHITESPACE);
 
         mEditText.addTextChangedListener(this);
         mETButton.setOnClickListener(this);
@@ -46,8 +43,8 @@ public class MainActivity extends Activity
             if (mETInputValidator.isInputValid(inputString)) { //If our inputString is valid
                 launchPermutationsActivity(
                         inputString,
-                        PermutationsActivity.ATTR_WHITESPACE_IN_SEP,
-                        PermutationsActivity.ATTR_DEFAULT_OUT_SEP
+                        PermutationsActivity.ATTR_IN_SEP_WHITESPACE,
+                        PermutationsActivity.ATTR_OUT_SEP_WHITESPACE
                 );
             } else {
                 Toast.makeText(
