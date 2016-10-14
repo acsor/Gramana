@@ -1,18 +1,18 @@
 package org.develop.nil.gramana.activity;
 
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import org.develop.nil.gramana.R;
+import org.develop.nil.gramana.adapter.PermutationsAdapter;
 import org.develop.nil.gramana.model.InputValidator;
 import org.develop.nil.gramana.model.Scrambler;
+
+import java.util.Locale;
 
 /**
  * Created by n0ne on 02/10/16.
@@ -31,9 +31,8 @@ public class PermutationsActivity extends ListActivity {
     private String mPermutationString;
     private String mInSep;
     private char mOutSep;
-    private ArrayAdapter<String>    mAdapter;
+    private PermutationsAdapter mAdapter;
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
     @Override
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,13 +64,18 @@ public class PermutationsActivity extends ListActivity {
 
         mOutSep = i.getCharExtra(PARAM_OUT_SEP, ATTR_OUT_SEP_DEFAULT);
 
-        mAdapter = new ArrayAdapter<String>(this, R.layout.adapter_permutation);
+        mAdapter = new PermutationsAdapter(this, mOutSep);
 
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
-        setTitle(String.format("%s \"%s\"", getResources().getString(R.string.permutations_for_uc), mPermutationString.replace(mInSep, String.valueOf(mOutSep))));
+        setTitle(String.format(
+                "%s \"%s\"",
+                getResources().getString(R.string.permutations_for_uc),
+                mPermutationString.replace(mInSep, String.valueOf(mOutSep))
+            )
+        );
 
         //TO-DO Try to populate mAdapter in another thread
-        mAdapter.addAll(Scrambler.permute(mPermutationString, mInSep, mOutSep));
+        mAdapter.setData(Scrambler.permute(mPermutationString, mInSep, mOutSep));
     }
 
     @Override
@@ -92,6 +96,7 @@ public class PermutationsActivity extends ListActivity {
         setListAdapter(mAdapter);
         //TODO Be careful about this statement. Perhaps it could be safer to insert it into a Loader callback method
         setTitle(String.format(
+                Locale.getDefault(),
                 "%d %s \"%s\"",
                 mAdapter.getCount(),
                 getResources().getString(R.string.permutations_for_lc),
@@ -118,7 +123,9 @@ public class PermutationsActivity extends ListActivity {
 
         @Override
         public String getErrorMessage () {
-            return String.format("%s %d\n",
+            return String.format(
+                    Locale.getDefault(),
+                    "%s %d.",
                     mContext.getResources().getString(R.string.activity_permutations_input_validator),
                     ATTR_MAX_SYLLABLES
             );

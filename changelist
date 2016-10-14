@@ -1,1 +1,2 @@
-Change MainActivity's outSep argument to PermutationsActivity to white space
+Create ColorProvider
+Implement code in PermutationsAdapter.ViewHolder to recognize syllables and improperly color them
