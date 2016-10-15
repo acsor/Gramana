@@ -74,40 +74,51 @@ public class PermutationsAdapter extends BaseAdapter {
 
     public static class ViewHolder {
 
-        private static char sOutSep;
+        private static Map<String, Integer> sSyllablesToColors;
+        private static ColorProvider sColorP;
+        private char mOutSep;
         private TextView mName;
 
         public ViewHolder (View root, char outSep) {
             mName = (TextView) root.findViewById(R.id.adapter_permutation_name);
-            sOutSep = outSep;
+            mOutSep = outSep;
+
+            if (sSyllablesToColors == null) {
+                sSyllablesToColors = new Hashtable<String, Integer>();
+            }
+
+            if (sColorP == null) {
+                sColorP = new ColorProvider(mName.getContext(), mName.getCurrentTextColor());
+            }
         }
 
         public void update (String data) {
-            final ColorProvider c = new ColorProvider(mName.getContext(), mName.getCurrentTextColor());
             final Spannable spannable = new SpannableString(data);
-            final String[] syllables = data.split("" + sOutSep);
+            final String[] syllables = data.split("" + mOutSep);
             int currIndex = 0;
 
             //We apply a different text color to every syllable in our permutation string:
             for (int i = 0; i < syllables.length; i++) {
+
+                //If no color is associated to the current syllable:
+                if (!sSyllablesToColors.containsKey(syllables[i])) {
+                    sSyllablesToColors.put(syllables[i], sColorP.getNextColor());
+                }
+
                 spannable.setSpan (
-                        /*
-                        TODO Important: the direct use of {@code ColorProvider.getNextColor()} here is
-                        only temporary, and should be changed soon by a hashmap.
-                         */
-                        new ForegroundColorSpan(c.getNextColor()),
+                        new ForegroundColorSpan(sSyllablesToColors.get(syllables[i])),
                         currIndex,
                         currIndex + syllables[i].length(),
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                 );
 
                 /*
-                The length of {@code sOutSep} will be added to {@code currIndex} even during the last iteration, where
-                no corresponding {@code sOutSep} after the current (and last) syllable can be found. However, this should not
+                The length of {@code mOutSep} will be added to {@code currIndex} even during the last iteration, where
+                there is no corresponding {@code mOutSep} after the current (and last) syllable. However, this should not
                 be a problem, since {@code currIndex} won't be used after that iteration, so no code checking to add the
                 correct amount to {@code currIndex} will be added.
                  */
-                currIndex += syllables[i].length() + String.valueOf(sOutSep).length();
+                currIndex += syllables[i].length() + String.valueOf(mOutSep).length();
             }
 
             mName.setText(spannable);

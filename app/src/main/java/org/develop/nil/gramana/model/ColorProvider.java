@@ -33,8 +33,9 @@ public class ColorProvider {
 
     public int getNextColor () {
         if (mCurrColor < mColorsList.length) {
-            mCurrColor++;
-            return mColorsList[mCurrColor];
+            //TODO This method previously contained a bug. Should perhaps continue monitoring it.
+            //TODO Check the post-increment operator behaves as expected.
+            return mColorsList[mCurrColor++];
         }
         return mDefaultColor;
     }

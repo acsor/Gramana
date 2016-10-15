@@ -1,2 +1,1 @@
-Create ColorProvider
-Implement code in PermutationsAdapter.ViewHolder to recognize syllables and improperly color them
+Recognize syllables and color them according to a value stored in a hash map
