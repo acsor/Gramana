@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import org.develop.nil.gramana.R;
+import org.develop.nil.gramana.activity.PermutationsActivity;
 import org.develop.nil.gramana.model.ColorProvider;
 
 import java.util.*;
@@ -98,7 +99,11 @@ public class PermutationsAdapter extends BaseAdapter {
             }
 
             if (sColorP == null) {
-                sColorP = new ColorProvider(mName.getContext(), mName.getCurrentTextColor());
+                sColorP = new ColorProvider(
+                        mName.getContext(),
+                        mName.getCurrentTextColor(),
+                        PermutationsActivity.InputStringValidator.ATTR_MAX_SYLLABLES
+                );
             }
         }
 

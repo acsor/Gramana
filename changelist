@@ -1,2 +1,1 @@
-Fix bug in PermutationsAdapter.ViewHolder relating to static instances
-Fix bug in MainActivity's ET for strings preceded by white spaces
+Pick better colors to use in ColorProvider

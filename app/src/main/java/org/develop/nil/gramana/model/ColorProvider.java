@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Color;
 import org.develop.nil.gramana.R;
 
+import java.util.Locale;
+
 /**
  * Created by n0ne on 13/10/16.
  */
@@ -13,21 +15,21 @@ public class ColorProvider {
     private int[] mColorsList;
     private int mCurrColor;
 
-    public ColorProvider (Context c, int defaultColor) {
+    public ColorProvider (Context c, int defaultColor, int maxColors) {
         mDefaultColor = defaultColor;
-        /*
-        TODO This hard-coded assignment should be changed, also taking into consideration
-        the variable in PermutationsActivity.<SomeNestedClass> which stores the maximum number of syllables
-        */
-        mColorsList = new int[]{
-                Color.RED,
-                Color.GREEN,
-                Color.BLUE,
-                Color.CYAN,
-                Color.YELLOW,
-                Color.WHITE,
-                Color.MAGENTA,
-        };
+        mColorsList = c.getResources().getIntArray(R.array.color_syllables);
+
+        if(mColorsList.length < maxColors) {
+            throw new IllegalStateException(
+                    String.format(
+                            Locale.getDefault(),
+                            "There are not enough colors to supply: %d requested, %d given.\n",
+                            maxColors,
+                            mColorsList.length
+                    )
+            );
+        }
+
         mCurrColor = 0;
     }
 
