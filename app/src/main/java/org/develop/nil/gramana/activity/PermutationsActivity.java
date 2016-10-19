@@ -41,7 +41,7 @@ public class PermutationsActivity extends ListActivity {
         final Intent i = getIntent();
         final InputValidator<String> v;
 
-        mPermutationString = i.getStringExtra(PARAM_PERMUTATION_STRING);
+        mPermutationString = i.getStringExtra(PARAM_PERMUTATION_STRING).trim();
         mPermutationString = (mPermutationString == null) ? "": mPermutationString;
 
         mInSep = i.getStringExtra(PARAM_IN_SEP);
@@ -76,6 +76,13 @@ public class PermutationsActivity extends ListActivity {
 
         //TO-DO Try to populate mAdapter in another thread
         mAdapter.setData(Scrambler.permute(mPermutationString, mInSep, mOutSep));
+    }
+
+    @Override
+    protected void onDestroy () {
+        super.onDestroy();
+
+        mAdapter.close();
     }
 
     @Override

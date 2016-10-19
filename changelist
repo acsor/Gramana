@@ -1,1 +1,2 @@
-Recognize syllables and color them according to a value stored in a hash map
+Fix bug in PermutationsAdapter.ViewHolder relating to static instances
+Fix bug in MainActivity's ET for strings preceded by white spaces

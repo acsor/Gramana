@@ -72,6 +72,16 @@ public class PermutationsAdapter extends BaseAdapter {
         return convertView;
     }
 
+    /**
+     * This method should be invoked by the respective Activity
+     * in order to free the static variables {@code ViewHolder.sSyllablesToColors}
+     * and {@code ViewHolder.sColorP} when it has finished running.
+     */
+    public void close () {
+        PermutationsAdapter.ViewHolder.sSyllablesToColors = null;
+        PermutationsAdapter.ViewHolder.sColorP = null;
+    }
+
     public static class ViewHolder {
 
         private static Map<String, Integer> sSyllablesToColors;
@@ -97,7 +107,7 @@ public class PermutationsAdapter extends BaseAdapter {
             final String[] syllables = data.split("" + mOutSep);
             int currIndex = 0;
 
-            //We apply a different text color to every syllable in our permutation string:
+            //For every syllable in {@code syllables} a different text color is applied
             for (int i = 0; i < syllables.length; i++) {
 
                 //If no color is associated to the current syllable:
