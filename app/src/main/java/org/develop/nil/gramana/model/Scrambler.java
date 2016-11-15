@@ -1,7 +1,6 @@
 package org.develop.nil.gramana.model;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.set.PredicatedSortedSet;
 
 import java.util.*;
 
@@ -17,7 +16,7 @@ public class Scrambler {
      * @param outSeparator
      * @return a <b>Set</b> of unrepeated <b>String</b>s all set to lower case
      */
-    public static Set<String> permute (String s, String inSeparator, char outSeparator) {
+    public static Set<String> permute (String s, String inSeparator, String outSeparator) {
         final List<String> tokens = new ArrayList<String>(Arrays.asList(s.split(inSeparator)));
         final Set<String> permutations = new TreeSet<String>(); //We don't want elements to be repeated, so we use a Set implementation.
 
@@ -29,7 +28,7 @@ public class Scrambler {
         return permutations;
     }
 
-    private static String listToString (List<String> l, char outSeparator) {
+    private static String listToString (List<String> l, String outSeparator) {
         String result = "";
         final int listSize = l.size();
 

@@ -22,7 +22,7 @@ public class PermutationsActivity extends ListActivity {
     public static final String ATTR_IN_SEP_WHITESPACE = "\\s+?";
     public static final char ATTR_OUT_SEP_WHITESPACE = ' ';
     public static final String ATTR_IN_SEP_DEFAULT = ATTR_IN_SEP_WHITESPACE;
-    public static final char ATTR_OUT_SEP_DEFAULT = '-';
+    public static final String ATTR_OUT_SEP_DEFAULT = "-";
 
     public static final String PARAM_PERMUTATION_STRING = "0";
     public static final String PARAM_IN_SEP = "1";
@@ -30,7 +30,7 @@ public class PermutationsActivity extends ListActivity {
 
     private String mPermutationString;
     private String mInSep;
-    private char mOutSep;
+    private String mOutSep;
     private PermutationsAdapter mAdapter;
 
     @Override
@@ -62,7 +62,8 @@ public class PermutationsActivity extends ListActivity {
             return;
         }
 
-        mOutSep = i.getCharExtra(PARAM_OUT_SEP, ATTR_OUT_SEP_DEFAULT);
+        mOutSep = i.getStringExtra(PARAM_OUT_SEP);
+        mOutSep = mOutSep == null ? ATTR_OUT_SEP_DEFAULT: mOutSep;
 
         mAdapter = new PermutationsAdapter(this, mOutSep);
 

@@ -6,6 +6,8 @@
 .DS_Store
 /build
 /captures
+/gen
+/libs
 
 # Custom
 .outidea

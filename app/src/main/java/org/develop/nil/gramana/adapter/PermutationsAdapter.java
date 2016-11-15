@@ -23,13 +23,13 @@ public class PermutationsAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<String> mData;
-    private char mOutSep;
+    private String mOutSep;
 
-    public PermutationsAdapter (Context context, char outSep) {
+    public PermutationsAdapter (Context context, String outSep) {
         this(context, new LinkedList<String>(), outSep);
     }
 
-    public PermutationsAdapter (Context context, Collection<String> data, char outSep) {
+    public PermutationsAdapter (Context context, Collection<String> data, String outSep) {
         mContext = context;
         setData(data);
         mOutSep = outSep;
@@ -87,10 +87,10 @@ public class PermutationsAdapter extends BaseAdapter {
 
         private static Map<String, Integer> sSyllablesToColors;
         private static ColorProvider sColorP;
-        private char mOutSep;
+        private String mOutSep;
         private TextView mName;
 
-        public ViewHolder (View root, char outSep) {
+        public ViewHolder (View root, String outSep) {
             mName = (TextView) root.findViewById(R.id.adapter_permutation_name);
             mOutSep = outSep;
 
