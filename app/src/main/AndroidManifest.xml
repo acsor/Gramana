@@ -6,18 +6,18 @@
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
+            android:label="@string/name_app"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             >
-        <activity android:name=".activity.MainActivity">
+        <activity android:name="org.nil.gramana.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.PermutationsActivity">
+        <activity android:name="org.nil.gramana.activity.PermutationsActivity">
         </activity>
     </application>
 

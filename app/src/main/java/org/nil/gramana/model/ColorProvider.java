@@ -1,7 +1,6 @@
-package org.develop.nil.gramana.model;
+package org.nil.gramana.model;
 
 import android.content.Context;
-import android.graphics.Color;
 import org.develop.nil.gramana.R;
 
 import java.util.Locale;

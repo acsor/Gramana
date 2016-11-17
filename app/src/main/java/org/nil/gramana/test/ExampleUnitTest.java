@@ -1,16 +1,13 @@
-package org.develop.nil.gramana;
-
-import org.develop.nil.gramana.activity.PermutationsActivity;
-import org.develop.nil.gramana.model.InputValidator;
-import org.develop.nil.gramana.model.Scrambler;
+import org.nil.gramana.activity.PermutationsActivity;
+import org.nil.gramana.model.InputValidator;
+import org.nil.gramana.model.Scrambler;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
@@ -31,25 +28,27 @@ public class ExampleUnitTest {
 
     @Test
     public void testDictionaryFeature () {
-        final String word = "a b a c o";
-        String tempWord;
-        final String dictionaryFileName = "src/main/assets/Italian dictionary.txt";
+        final String permutationWord = "r e m a r e";
+        final String inSep = "\\s";
+        final Set<String> permutations = Scrambler.permute(permutationWord, inSep, "");
 
-        final Set<String> permutations = Scrambler.permute(word, "\\s", "");
+        final String dictionaryFileName = "src/main/assets/Italian dictionary.txt";
         final Set<String> dictionary = new TreeSet<>();
         Scanner dictionaryReader = null;
 
+        final Pattern wordPattern = Pattern.compile(
+                String.format("^[%s]+", permutationWord.replaceAll(inSep, "")),
+                Pattern.UNICODE_CASE);
+        Matcher wordMatcher;
+
         try {
-            dictionaryReader = new Scanner(new File(dictionaryFileName));
+            dictionaryReader = new Scanner(new File(dictionaryFileName), "UTF-8");
 
             while (dictionaryReader.hasNextLine()) {
-                try {
-                    //TO-DO Find out why the program seems to get stuck at this block
-                    tempWord = dictionaryReader.next("^\\p{Alpha}+").toLowerCase();
-                    dictionary.add(tempWord);
-                    dictionaryReader.nextLine();
-                } catch (NoSuchElementException e) {
+                wordMatcher = wordPattern.matcher(dictionaryReader.nextLine());
 
+                if (wordMatcher.lookingAt()) {
+                    dictionary.add(wordMatcher.group().toLowerCase(Locale.getDefault()));
                 }
             }
         } catch (FileNotFoundException e) {

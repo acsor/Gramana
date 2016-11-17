@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Gramana</string>
-    <string name="action_settings">Settings</string>
+    <string name="name_app">Gramana</string>
 
     <string name="activity_main_desc">
         Gramana (Gram-a-na, a play on words from A-na-gram) is a sample application created by a developer
@@ -15,6 +14,7 @@
     </string>
 
     <string name="default_sep"> </string>
+    <string name="dictionaries">Dictionaries</string>
     <string name="ok_uppercase">OK</string>
     <string name="permute">Permute</string>
     <string name="permutations_for_uc">Permutations for</string>

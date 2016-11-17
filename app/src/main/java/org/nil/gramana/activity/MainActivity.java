@@ -1,4 +1,4 @@
-package org.develop.nil.gramana.activity;
+package org.nil.gramana.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +34,26 @@ public class MainActivity extends Activity
 
         mEditText.addTextChangedListener(this);
         mETButton.setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu) {
+        final MenuInflater i = getMenuInflater();
+
+        i.inflate(R.menu.menu_main, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onMenuItemSelected (int featureId, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_main_dictionaries:
+                //Show dictionaries dialog here
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override

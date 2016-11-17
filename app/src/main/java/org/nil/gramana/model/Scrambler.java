@@ -1,4 +1,4 @@
-package org.develop.nil.gramana.model;
+package org.nil.gramana.model;
 
 import org.apache.commons.collections4.CollectionUtils;
 

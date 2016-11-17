@@ -1,4 +1,4 @@
-package org.develop.nil.gramana.activity;
+package org.nil.gramana.activity;
 
 import android.app.ActionBar;
 import android.app.ListActivity;
@@ -8,9 +8,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 import org.develop.nil.gramana.R;
-import org.develop.nil.gramana.adapter.PermutationsAdapter;
-import org.develop.nil.gramana.model.InputValidator;
-import org.develop.nil.gramana.model.Scrambler;
+import org.nil.gramana.adapter.PermutationsAdapter;
+import org.nil.gramana.model.InputValidator;
+import org.nil.gramana.model.Scrambler;
 
 import java.util.Locale;
 
