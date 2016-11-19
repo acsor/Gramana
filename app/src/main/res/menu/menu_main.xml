@@ -8,6 +8,8 @@
     <item
             android:id="@+id/menu_main_dictionaries"
             android:title="@string/dictionaries"
+            android:icon="@drawable/ic_dark_dictionaries"
+            app:showAsAction="always"
             />
 
 </menu>

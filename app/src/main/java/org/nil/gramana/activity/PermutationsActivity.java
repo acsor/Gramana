@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
-import org.develop.nil.gramana.R;
+import org.nil.gramana.R;
 import org.nil.gramana.adapter.PermutationsAdapter;
 import org.nil.gramana.model.InputValidator;
 import org.nil.gramana.model.Scrambler;

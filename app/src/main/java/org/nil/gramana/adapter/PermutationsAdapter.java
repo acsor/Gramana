@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import org.develop.nil.gramana.R;
+import org.nil.gramana.R;
 import org.nil.gramana.activity.PermutationsActivity;
 import org.nil.gramana.model.ColorProvider;
 

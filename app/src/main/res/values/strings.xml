@@ -13,8 +13,11 @@
         For memory reasons, the number of syllables cannot be more than <!-- number of max syllables -->
     </string>
 
+    <string name="cancel">Cancel</string>
     <string name="default_sep"> </string>
+    <string name="dialog_dictionary_title">Dictionaries</string>
     <string name="dictionaries">Dictionaries</string>
+    <string name="none">None</string>
     <string name="ok_uppercase">OK</string>
     <string name="permute">Permute</string>
     <string name="permutations_for_uc">Permutations for</string>

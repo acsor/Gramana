@@ -1,9 +1,7 @@
 package org.nil.gramana.utils;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.os.Build;
 
 import java.io.IOException;
 
@@ -14,10 +12,10 @@ public class DictionaryManager {
 
     private Context mContext;
     private AssetManager mAssets;
-    private String mSelectedDir;
+    private String mSelectedDic;
 
     private static DictionaryManager sInstance;
-    private static String mRoot = "dictionaries/";
+    private static String mRoot = "dictionaries";
 
     public static DictionaryManager getInstance (Context c) {
         if (sInstance == null) {
@@ -33,31 +31,22 @@ public class DictionaryManager {
     private DictionaryManager (Context c) {
         mContext = c.getApplicationContext();
         mAssets = mContext.getResources().getAssets();
-        mSelectedDir = null;
+        mSelectedDic = null;
     }
 
     public String selectDictionary (String fileName) {
-        if (fileName == null || fileName.isEmpty()) {
-            return null;
-        }
-        try {
-            //Check access to the requested dictionary
-            mAssets.open(mRoot + fileName).close();
-            return fileName;
-        } catch (IOException e) {
-            return null;
-        }
+        return mSelectedDic = fileName;
     }
 
-    public String getCurrent () {
-        return mSelectedDir;
+    public String getSelectedDictionary () {
+        return mSelectedDic;
     }
 
     public String[] getDictionaries () {
         try {
             return mAssets.list(mRoot);
         } catch (IOException e) {
-            return null;
+            return new String[0];
         }
     }
 
