@@ -39,6 +39,7 @@ public class PermutationsActivity extends ListActivity {
         setContentView(R.layout.activity_permutations);
 
         final Intent i = getIntent();
+        final ActionBar aBar = getActionBar();
         final InputValidator<String> v;
 
         mPermutationString = i.getStringExtra(PARAM_PERMUTATION_STRING).trim();
@@ -67,7 +68,14 @@ public class PermutationsActivity extends ListActivity {
 
         mAdapter = new PermutationsAdapter(this, mOutSep);
 
-        getActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
+        /*
+        TO-DO This code wrapped by the if-statement has been causing problems when running
+        on a 23-API-level device. Checking against a null value is just a temporary solution,
+        and a better one should be found. I'm not going to lose a whole evening for it.
+         */
+        if (aBar != null) {
+            aBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
+        }
         setTitle(String.format(
                 "%s \"%s\"",
                 getResources().getString(R.string.permutations_for_uc),
@@ -77,6 +85,9 @@ public class PermutationsActivity extends ListActivity {
 
         //TO-DO Try to populate mAdapter in another thread
         mAdapter.setData(Scrambler.permute(mPermutationString, mInSep, mOutSep));
+        if (mAdapter.getFilter() != null) {
+
+        }
     }
 
     @Override
