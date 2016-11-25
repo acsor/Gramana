@@ -20,9 +20,20 @@ public class Scrambler {
         final List<String> tokens = new ArrayList<String>(Arrays.asList(s.split(inSeparator)));
         final Set<String> permutations = new TreeSet<String>(); //We don't want elements to be repeated, so we use a Set implementation.
 
-        for (List<String> p: CollectionUtils.permutations(tokens)) {
+        for (List<String> p: CollectionUtils.<String>permutations(tokens)) {
             //TO-DO Try to find a more elegant solution for populating this. Have a look at newer Java features for iterations.
             permutations.add(listToString(p, outSeparator));
+        }
+
+        return permutations;
+    }
+
+    public static Set<List<String>> permuteList (String s, String inSeparator) {
+        final String[] tokens = s.split(inSeparator);
+        final HashSet<List<String>> permutations = new HashSet<>();
+
+        for (List<String> p: CollectionUtils.<String>permutations(Arrays.asList(tokens))) {
+            permutations.add(p);
         }
 
         return permutations;

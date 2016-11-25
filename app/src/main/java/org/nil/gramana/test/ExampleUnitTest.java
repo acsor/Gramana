@@ -19,11 +19,11 @@ public class ExampleUnitTest {
     @Test
     public void testPermutations () {
         final String word = "Tri co lo re";
-        final Set<String> permutations = Scrambler.permute(word, "\\s", "");
+        final Set<List<String>> permutations = Scrambler.permuteList(word, "\\s");
 
         System.out.format("Extracted %d permutation(s)\n", permutations.size());
 
-        for (String s: permutations) {
+        for (List<String> s: permutations) {
             System.out.println(s);
         }
     }

@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 import org.nil.gramana.R;
 import org.nil.gramana.activity.PermutationsActivity;
@@ -19,10 +21,11 @@ import java.util.*;
 /**
  * Created by n0ne on 13/10/16.
  */
-public class PermutationsAdapter extends BaseAdapter {
+public class PermutationsAdapter extends BaseAdapter implements Filterable {
 
     private Context mContext;
     private List<String> mData;
+    private List<String> mFilteredData;
     private String mOutSep;
 
     public PermutationsAdapter (Context context, String outSep) {
@@ -83,6 +86,11 @@ public class PermutationsAdapter extends BaseAdapter {
         PermutationsAdapter.ViewHolder.sColorP = null;
     }
 
+    @Override
+    public Filter getFilter () {
+        return null;
+    }
+
     public static class ViewHolder {
 
         private static Map<String, Integer> sSyllablesToColors;
@@ -137,6 +145,23 @@ public class PermutationsAdapter extends BaseAdapter {
             }
 
             mName.setText(spannable);
+        }
+
+    }
+
+    public class DictionaryFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering (CharSequence constraint) {
+            final FilterResults r = new FilterResults();
+            r.values = new LinkedList<String>(mData);
+
+            return r;
+        }
+
+        @Override
+        protected void publishResults (CharSequence constraint, FilterResults results) {
+
         }
 
     }
