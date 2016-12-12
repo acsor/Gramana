@@ -15,6 +15,7 @@ import android.widget.TextView;
 import org.nil.gramana.R;
 import org.nil.gramana.activity.PermutationsActivity;
 import org.nil.gramana.model.ColorProvider;
+import org.nil.gramana.utils.Utils;
 
 import java.util.*;
 
@@ -24,21 +25,21 @@ import java.util.*;
 public class PermutationsAdapter extends BaseAdapter implements Filterable {
 
     private Context mContext;
-    private List<String> mData;
+    private List<String[]> mData;
     private List<String> mFilteredData;
     private String mOutSep;
 
     public PermutationsAdapter (Context context, String outSep) {
-        this(context, new LinkedList<String>(), outSep);
+        this(context, new LinkedList<String[]>(), outSep);
     }
 
-    public PermutationsAdapter (Context context, Collection<String> data, String outSep) {
+    public PermutationsAdapter (Context context, Collection<String[]> data, String outSep) {
         mContext = context;
         setData(data);
         mOutSep = outSep;
     }
 
-    public void setData (Collection<String> data) {
+    public void setData (Collection<String[]> data) {
         mData = new LinkedList<>(data);
         notifyDataSetChanged();
     }
@@ -71,15 +72,15 @@ public class PermutationsAdapter extends BaseAdapter implements Filterable {
             h = (ViewHolder) convertView.getTag();
         }
 
-        h.update((String) getItem(position));
+        h.update((String[]) getItem(position));
 
         return convertView;
     }
 
     /**
-     * This method should be invoked by the respective Activity
+     * This method should be invoked by the corresponding Activity
      * in order to free the static variables {@code ViewHolder.sSyllablesToColors}
-     * and {@code ViewHolder.sColorP} when it has finished running.
+     * and {@code ViewHolder.sColorP} when finishing running.
      */
     public void close () {
         PermutationsAdapter.ViewHolder.sSyllablesToColors = null;
@@ -91,19 +92,19 @@ public class PermutationsAdapter extends BaseAdapter implements Filterable {
         return null;
     }
 
-    public static class ViewHolder {
+    private static class ViewHolder {
 
         private static Map<String, Integer> sSyllablesToColors;
         private static ColorProvider sColorP;
         private String mOutSep;
         private TextView mName;
 
-        public ViewHolder (View root, String outSep) {
+        ViewHolder (View root, String outSep) {
             mName = (TextView) root.findViewById(R.id.adapter_permutation_name);
             mOutSep = outSep;
 
             if (sSyllablesToColors == null) {
-                sSyllablesToColors = new Hashtable<String, Integer>();
+                sSyllablesToColors = new Hashtable<>();
             }
 
             if (sColorP == null) {
@@ -115,23 +116,23 @@ public class PermutationsAdapter extends BaseAdapter implements Filterable {
             }
         }
 
-        public void update (String data) {
-            final Spannable spannable = new SpannableString(data);
-            final String[] syllables = data.split("" + mOutSep);
+        void update (String[] data) {
+            final Spannable spannable = new SpannableString(Utils.join(data, mOutSep));
             int currIndex = 0;
 
             //For every syllable in {@code syllables} a different text color is applied
-            for (int i = 0; i < syllables.length; i++) {
+            //noinspection ForLoopReplaceableByForEach
+            for (int i = 0; i < data.length; i++) {
 
                 //If no color is associated to the current syllable:
-                if (!sSyllablesToColors.containsKey(syllables[i])) {
-                    sSyllablesToColors.put(syllables[i], sColorP.getNextColor());
+                if (!sSyllablesToColors.containsKey(data[i])) {
+                    sSyllablesToColors.put(data[i], sColorP.getNextColor());
                 }
 
                 spannable.setSpan (
-                        new ForegroundColorSpan(sSyllablesToColors.get(syllables[i])),
+                        new ForegroundColorSpan(sSyllablesToColors.get(data[i])),
                         currIndex,
-                        currIndex + syllables[i].length(),
+                        currIndex + data[i].length(),
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                 );
 
@@ -141,7 +142,7 @@ public class PermutationsAdapter extends BaseAdapter implements Filterable {
                 be a problem, since {@code currIndex} won't be used after that iteration, so no code checking to add the
                 correct amount to {@code currIndex} will be added.
                  */
-                currIndex += syllables[i].length() + String.valueOf(mOutSep).length();
+                currIndex += data[i].length() + mOutSep.length();
             }
 
             mName.setText(spannable);
@@ -154,7 +155,7 @@ public class PermutationsAdapter extends BaseAdapter implements Filterable {
         @Override
         protected FilterResults performFiltering (CharSequence constraint) {
             final FilterResults r = new FilterResults();
-            r.values = new LinkedList<String>(mData);
+            r.values = new LinkedList<String[]>(mData);
 
             return r;
         }

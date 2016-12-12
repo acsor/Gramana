@@ -20,9 +20,9 @@ import java.util.Locale;
 public class PermutationsActivity extends ListActivity {
 
     public static final String ATTR_IN_SEP_WHITESPACE = "\\s+?";
-    public static final char ATTR_OUT_SEP_WHITESPACE = ' ';
+    public static final String ATTR_OUT_SEP_WHITESPACE = " ";
     public static final String ATTR_IN_SEP_DEFAULT = ATTR_IN_SEP_WHITESPACE;
-    public static final String ATTR_OUT_SEP_DEFAULT = "-";
+    public static final String ATTR_OUT_SEP_DEFAULT = "";
 
     public static final String PARAM_PERMUTATION_STRING = "0";
     public static final String PARAM_IN_SEP = "1";
@@ -84,7 +84,7 @@ public class PermutationsActivity extends ListActivity {
         );
 
         //TO-DO Try to populate mAdapter in another thread
-        mAdapter.setData(Scrambler.permute(mPermutationString, mInSep, mOutSep));
+        mAdapter.setData(Scrambler.permute(mPermutationString, mInSep));
         if (mAdapter.getFilter() != null) {
 
         }
