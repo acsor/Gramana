@@ -4,6 +4,7 @@ import org.nil.gramana.activity.PermutationsActivity;
 import org.nil.gramana.model.InputValidator;
 import org.nil.gramana.model.Scrambler;
 import org.junit.Test;
+import org.nil.gramana.utils.Utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,12 +20,12 @@ public class ExampleUnitTest {
     @Test
     public void testPermutations () {
         final String word = "Tri co lo re";
-        final Set<List<String>> permutations = Scrambler.permuteList(word, "\\s");
+        final Set<String[]> permutations = Scrambler.permute(word, "\\s");
 
         System.out.format("Extracted %d permutation(s)\n", permutations.size());
 
-        for (List<String> s: permutations) {
-            System.out.println(s);
+        for (String[] s: permutations) {
+            System.out.println(Utils.join(s, ""));
         }
     }
 
@@ -32,7 +33,7 @@ public class ExampleUnitTest {
     public void testDictionaryFeature () {
         final String permutationWord = "r e m a r e";
         final String inSep = "\\s";
-        final Set<String> permutations = Scrambler.permute(permutationWord, inSep, "");
+        final Set<String[]> permutations = Scrambler.permute(permutationWord, inSep);
 
         final String dictionaryFileName = "src/main/assets/Italian dictionary.txt";
         final Set<String> dictionary = new TreeSet<>();

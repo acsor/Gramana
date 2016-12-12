@@ -1,6 +1,7 @@
 package org.nil.gramana.model;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.nil.gramana.utils.Utils;
 
 import java.util.*;
 
@@ -9,49 +10,23 @@ import java.util.*;
  */
 public class Scrambler {
 
-    /**
-     *
-     * @param s
-     * @param inSeparator
-     * @param outSeparator
-     * @return a <b>Set</b> of unrepeated <b>String</b>s all set to lower case
-     */
-    public static Set<String> permute (String s, String inSeparator, String outSeparator) {
-        final List<String> tokens = new ArrayList<String>(Arrays.asList(s.split(inSeparator)));
-        final Set<String> permutations = new TreeSet<String>(); //We don't want elements to be repeated, so we use a Set implementation.
-
-        for (List<String> p: CollectionUtils.<String>permutations(tokens)) {
-            //TO-DO Try to find a more elegant solution for populating this. Have a look at newer Java features for iterations.
-            permutations.add(listToString(p, outSeparator));
-        }
-
-        return permutations;
-    }
-
-    public static Set<List<String>> permuteList (String s, String inSeparator) {
+    public static Set<String[]> permute (String s, String inSeparator) {
         final String[] tokens = s.split(inSeparator);
-        final HashSet<List<String>> permutations = new HashSet<>();
+        final Comparator<String[]> comparator = new Comparator<String[]> () {
+
+            @Override
+            public int compare (String[] first, String[] second) {
+                return Utils.join(first, "").compareTo(Utils.join(second, ""));
+            }
+
+        };
+        final TreeSet<String[]> permutations = new TreeSet<>(comparator);
 
         for (List<String> p: CollectionUtils.<String>permutations(Arrays.asList(tokens))) {
-            permutations.add(p);
+            permutations.add(p.toArray(new String[p.size()]));
         }
 
         return permutations;
-    }
-
-    private static String listToString (List<String> l, String outSeparator) {
-        String result = "";
-        final int listSize = l.size();
-
-        for (int i = 0; i < listSize; i++) {
-            result += l.get(i);
-
-            if ((listSize - i) > 1) {   //If we haven't reached the last element yet:
-                result += outSeparator;
-            }
-        }
-
-        return result;
     }
 
 }
