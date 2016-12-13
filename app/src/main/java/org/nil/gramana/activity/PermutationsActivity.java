@@ -85,9 +85,6 @@ public class PermutationsActivity extends ListActivity {
 
         //TO-DO Try to populate mAdapter in another thread
         mAdapter.setData(Scrambler.permute(mPermutationString, mInSep));
-        if (mAdapter.getFilter() != null) {
-
-        }
     }
 
     @Override

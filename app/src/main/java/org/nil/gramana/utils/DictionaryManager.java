@@ -46,7 +46,7 @@ public class DictionaryManager {
         try {
             return mAssets.list(mRoot);
         } catch (IOException e) {
-            return new String[0];
+            return null;
         }
     }
 

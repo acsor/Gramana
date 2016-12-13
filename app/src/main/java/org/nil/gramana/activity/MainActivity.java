@@ -21,6 +21,7 @@ public class MainActivity extends FragmentActivity
         TextWatcher {
 
     private EditText mEditText;
+    private DictionaryDialog mDDialog;
     private Button mETButton;
     private PermutationsActivity.InputStringValidator mETInputValidator;
 
@@ -30,6 +31,7 @@ public class MainActivity extends FragmentActivity
         setContentView(R.layout.activity_main);
 
         mEditText = (EditText) findViewById(R.id.activity_main_et);
+        mDDialog = new DictionaryDialog();
         mETButton = (Button) findViewById(R.id.activity_main_b);
         mETInputValidator = new EditTextInputValidator(this, PermutationsActivity.ATTR_IN_SEP_WHITESPACE);
 
@@ -50,8 +52,7 @@ public class MainActivity extends FragmentActivity
     public boolean onOptionsItemSelected (MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_main_dictionaries:
-                new DictionaryDialog().show(getSupportFragmentManager(),
-                        DictionaryDialog.class.getName());
+                mDDialog.show(getSupportFragmentManager(), DictionaryDialog.class.getName());
                 return true;
             default:
                 return false;
@@ -65,7 +66,7 @@ public class MainActivity extends FragmentActivity
         if (v.getId() == mETButton.getId()) {
             inputString = "" + mEditText.getText().toString();
 
-            if (mETInputValidator.isInputValid(inputString)) { //If our inputString is valid
+            if (mETInputValidator.isInputValid(inputString)) {
                 launchPermutationsActivity(
                         inputString,
                         PermutationsActivity.ATTR_IN_SEP_WHITESPACE,
@@ -81,7 +82,7 @@ public class MainActivity extends FragmentActivity
         }
     }
 
-    private void launchPermutationsActivity (String s, String inSep, char outSep) {
+    private void launchPermutationsActivity (String s, String inSep, String outSep) {
         final Intent i = new Intent(this, PermutationsActivity.class);
 
         i.putExtra(PermutationsActivity.PARAM_PERMUTATION_STRING, s);

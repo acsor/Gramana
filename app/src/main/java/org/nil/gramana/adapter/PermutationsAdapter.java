@@ -9,24 +9,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 import org.nil.gramana.R;
 import org.nil.gramana.activity.PermutationsActivity;
 import org.nil.gramana.model.ColorProvider;
 import org.nil.gramana.utils.Utils;
 
+import java.io.Closeable;
 import java.util.*;
 
 /**
  * Created by n0ne on 13/10/16.
  */
-public class PermutationsAdapter extends BaseAdapter implements Filterable {
+public class PermutationsAdapter extends BaseAdapter implements Closeable {
 
     private Context mContext;
     private List<String[]> mData;
-    private List<String> mFilteredData;
     private String mOutSep;
 
     public PermutationsAdapter (Context context, String outSep) {
@@ -82,14 +80,10 @@ public class PermutationsAdapter extends BaseAdapter implements Filterable {
      * in order to free the static variables {@code ViewHolder.sSyllablesToColors}
      * and {@code ViewHolder.sColorP} when finishing running.
      */
+    @Override
     public void close () {
         PermutationsAdapter.ViewHolder.sSyllablesToColors = null;
         PermutationsAdapter.ViewHolder.sColorP = null;
-    }
-
-    @Override
-    public Filter getFilter () {
-        return null;
     }
 
     private static class ViewHolder {
@@ -146,23 +140,6 @@ public class PermutationsAdapter extends BaseAdapter implements Filterable {
             }
 
             mName.setText(spannable);
-        }
-
-    }
-
-    public class DictionaryFilter extends Filter {
-
-        @Override
-        protected FilterResults performFiltering (CharSequence constraint) {
-            final FilterResults r = new FilterResults();
-            r.values = new LinkedList<String[]>(mData);
-
-            return r;
-        }
-
-        @Override
-        protected void publishResults (CharSequence constraint, FilterResults results) {
-
         }
 
     }
