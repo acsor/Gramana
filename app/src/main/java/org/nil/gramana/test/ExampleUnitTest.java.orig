@@ -31,7 +31,11 @@ public class ExampleUnitTest {
     public void testDictionaryFeature () {
         final String permutationWord = "t o r t a";
         final String inSep = "\\s";
+<<<<<<< HEAD
         final Set<String> permutations = Scrambler.permuteString(permutationWord, inSep, "");
+=======
+        final Set<String[]> permutations = Scrambler.permute(permutationWord, inSep);
+>>>>>>> origin/feature_dictionary
 
         final String dictionaryFileName = "src/main/assets/dictionaries/Italian dictionary.txt";
         final org.nil.gramana.tools.Dictionary dictionary;
