@@ -12,7 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import org.nil.gramana.R;
 import org.nil.gramana.activity.PermutationsActivity;
-import org.nil.gramana.model.ColorProvider;
+import org.nil.gramana.tools.ColorProvider;
 import org.nil.gramana.utils.Utils;
 
 import java.io.Closeable;

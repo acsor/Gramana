@@ -1,6 +1,5 @@
 <menu
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         tools:context="org.nil.gramana.activity.MainActivity"
         >
@@ -9,7 +8,7 @@
             android:id="@+id/menu_main_dictionaries"
             android:title="@string/dictionaries"
             android:icon="@drawable/ic_dark_dictionaries"
-            app:showAsAction="always"
+            android:showAsAction="always"
             />
 
 </menu>

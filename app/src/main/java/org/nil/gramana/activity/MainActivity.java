@@ -70,7 +70,7 @@ public class MainActivity extends FragmentActivity
                 launchPermutationsActivity(
                         inputString,
                         PermutationsActivity.ATTR_IN_SEP_WHITESPACE,
-                        PermutationsActivity.ATTR_OUT_SEP_WHITESPACE
+                        PermutationsActivity.ATTR_OUT_SEP_DEFAULT
                 );
             } else {
                 Toast.makeText(

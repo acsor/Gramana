@@ -1,4 +1,4 @@
-package org.nil.gramana.model;
+package org.nil.gramana.tools;
 
 /**
  * Created by n0ne on 09/10/16.

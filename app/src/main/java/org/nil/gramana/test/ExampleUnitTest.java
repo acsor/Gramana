@@ -1,16 +1,14 @@
 package org.nil.gramana.test;
 
 import org.nil.gramana.activity.PermutationsActivity;
-import org.nil.gramana.model.InputValidator;
-import org.nil.gramana.model.Scrambler;
+import org.nil.gramana.tools.InputValidator;
+import org.nil.gramana.tools.Scrambler;
 import org.junit.Test;
 import org.nil.gramana.utils.Utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
@@ -31,39 +29,21 @@ public class ExampleUnitTest {
 
     @Test
     public void testDictionaryFeature () {
-        final String permutationWord = "r e m a r e";
+        final String permutationWord = "t o r t a";
         final String inSep = "\\s";
-        final Set<String[]> permutations = Scrambler.permute(permutationWord, inSep);
+        final Set<String> permutations = Scrambler.permuteString(permutationWord, inSep, "");
 
-        final String dictionaryFileName = "src/main/assets/Italian dictionary.txt";
-        final Set<String> dictionary = new TreeSet<>();
-        Scanner dictionaryReader = null;
-
-        final Pattern wordPattern = Pattern.compile(
-                String.format("^[%s]+", permutationWord.replaceAll(inSep, "")),
-                Pattern.UNICODE_CASE);
-        Matcher wordMatcher;
+        final String dictionaryFileName = "src/main/assets/dictionaries/Italian dictionary.txt";
+        final org.nil.gramana.tools.Dictionary dictionary;
 
         try {
-            dictionaryReader = new Scanner(new File(dictionaryFileName), "UTF-8");
-
-            while (dictionaryReader.hasNextLine()) {
-                wordMatcher = wordPattern.matcher(dictionaryReader.nextLine());
-
-                if (wordMatcher.lookingAt()) {
-                    dictionary.add(wordMatcher.group().toLowerCase(Locale.getDefault()));
-                }
-            }
+            dictionary = new org.nil.gramana.tools.Dictionary(new File(dictionaryFileName));
         } catch (FileNotFoundException e) {
             System.err.format("\"%s\" not found\n", dictionaryFileName);
             return;
-        } finally {
-            if (dictionaryReader != null) {
-                dictionaryReader.close();
-            }
         }
 
-        permutations.retainAll(dictionary);
+        permutations.retainAll(dictionary.getWords());
 
         System.out.format("Found %d matches in \"%s\"\n", permutations.size(),
                 dictionaryFileName);

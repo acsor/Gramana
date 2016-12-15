@@ -39,7 +39,7 @@ public class DictionaryDialog extends DialogFragment {
 
         })
         .setSingleChoiceItems(dictionaries.toArray(new String[dictionaries.size()]),
-                m.getSelectedDictionary() == null ? 0: dictionaries.indexOf(m.getSelectedDictionary()),
+                m.getSelectedDictionaryFileName() == null ? 0: dictionaries.indexOf(m.getSelectedDictionaryFileName()),
                 new DialogInterface.OnClickListener() {
 
             @Override

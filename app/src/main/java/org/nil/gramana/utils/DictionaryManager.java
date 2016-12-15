@@ -2,6 +2,7 @@ package org.nil.gramana.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import org.nil.gramana.tools.Dictionary;
 
 import java.io.IOException;
 
@@ -38,8 +39,17 @@ public class DictionaryManager {
         return mSelectedDic = fileName;
     }
 
-    public String getSelectedDictionary () {
+    public String getSelectedDictionaryFileName () {
         return mSelectedDic;
+    }
+
+    public Dictionary openSelectedDictionary () throws IOException {
+        return new Dictionary(
+                mAssets.open(
+                        String.format("%s/%s", mRoot, mSelectedDic),
+                        AssetManager.ACCESS_BUFFER
+                )
+        );
     }
 
     public String[] getDictionaries () {
