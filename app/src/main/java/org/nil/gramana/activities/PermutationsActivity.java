@@ -1,4 +1,4 @@
-package org.nil.gramana.activity;
+package org.nil.gramana.activities;
 
 import android.app.ActionBar;
 import android.app.ListActivity;
@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import org.nil.gramana.PermutationsLoader;
 import org.nil.gramana.R;
-import org.nil.gramana.adapter.PermutationsAdapter;
+import org.nil.gramana.adapters.PermutationsAdapter;
 import org.nil.gramana.tools.InputValidator;
 
 import java.util.Collection;

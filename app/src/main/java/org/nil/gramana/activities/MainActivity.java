@@ -1,4 +1,4 @@
-package org.nil.gramana.activity;
+package org.nil.gramana.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import org.nil.gramana.R;
-import org.nil.gramana.dialog.DictionaryDialog;
+import org.nil.gramana.dialogs.DictionaryDialog;
 
 public class MainActivity extends FragmentActivity
     implements View.OnClickListener,

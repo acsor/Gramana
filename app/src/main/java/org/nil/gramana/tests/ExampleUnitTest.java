@@ -1,7 +1,5 @@
-package org.nil.gramana.test;
+package org.nil.gramana.tests;
 
-import org.nil.gramana.activity.PermutationsActivity;
-import org.nil.gramana.tools.InputValidator;
 import org.nil.gramana.tools.Scrambler;
 import org.junit.Test;
 import org.nil.gramana.utils.Utils;

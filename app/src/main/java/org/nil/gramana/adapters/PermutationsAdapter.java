@@ -1,4 +1,4 @@
-package org.nil.gramana.adapter;
+package org.nil.gramana.adapters;
 
 import android.content.Context;
 import android.text.Spannable;
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import org.nil.gramana.R;
-import org.nil.gramana.activity.PermutationsActivity;
+import org.nil.gramana.activities.PermutationsActivity;
 import org.nil.gramana.tools.ColorProvider;
 import org.nil.gramana.utils.Utils;
 

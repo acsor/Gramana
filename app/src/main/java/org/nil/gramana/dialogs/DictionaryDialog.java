@@ -1,4 +1,4 @@
-package org.nil.gramana.dialog;
+package org.nil.gramana.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

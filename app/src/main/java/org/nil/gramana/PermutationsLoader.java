@@ -80,7 +80,6 @@ public class PermutationsLoader extends AsyncTaskLoader<Collection<String[]>> {
         mFilteredPermutations = new TreeSet<>(Scrambler.stringArrayComparator);
 
         mPermutations = Scrambler.permute(mPermutationString, mInSep);
-        //TO-DO Try to find a better solution to filter result elements according to those of a dictionary.
         mFilteredPermutations.addAll(mPermutations);
 
         if (mDM.getSelectedDictionaryFileName() != null) {

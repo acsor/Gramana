@@ -11,7 +11,7 @@
             android:theme="@style/AppTheme"
             >
         <activity
-            android:name="org.nil.gramana.activity.MainActivity"
+            android:name="org.nil.gramana.activities.MainActivity"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="org.nil.gramana.activity.PermutationsActivity">
+        <activity android:name="org.nil.gramana.activities.PermutationsActivity">
         </activity>
     </application>
 
