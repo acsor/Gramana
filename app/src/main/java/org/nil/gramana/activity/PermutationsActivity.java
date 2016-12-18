@@ -7,21 +7,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import org.nil.gramana.PermutationsLoader;
 import org.nil.gramana.R;
 import org.nil.gramana.adapter.PermutationsAdapter;
-import org.nil.gramana.tools.Dictionary;
 import org.nil.gramana.tools.InputValidator;
-import org.nil.gramana.tools.Scrambler;
-import org.nil.gramana.utils.DictionaryManager;
-import org.nil.gramana.utils.Utils;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.Locale;
 
 /**
  * Created by n0ne on 02/10/16.
@@ -31,7 +27,7 @@ public class PermutationsActivity extends ListActivity
 
     public static final String ATTR_IN_SEP_WHITESPACE = "\\s+?";
     public static final String ATTR_OUT_SEP_WHITESPACE = " ";
-    public static final String ATTR_IN_SEP_DEFAULT = ATTR_IN_SEP_WHITESPACE;
+    public static final String ATTR_IN_SEP_DEFAULT = " ";
     public static final String ATTR_OUT_SEP_DEFAULT = "";
 
     public static final String PARAM_PERMUTATION_STRING = "0";
@@ -40,12 +36,13 @@ public class PermutationsActivity extends ListActivity
 
     public static final int LOADER_ID_PERMUTATIONS = 0;
 
+    private ProgressBar mProgress;
+    private View mEmptyView;
+
     private String mPermutationString;
     private String mInSep;
     private String mOutSep;
     private PermutationsAdapter mAdapter;
-
-    private DictionaryManager mDM;
 
     @Override
     public void onCreate (Bundle savedInstanceState) {
@@ -53,16 +50,16 @@ public class PermutationsActivity extends ListActivity
         setContentView(R.layout.activity_permutations);
 
         final Intent i = getIntent();
-        final ActionBar aBar = getActionBar();
         final InputValidator<String> v;
+
+        mProgress = (ProgressBar) findViewById(R.id.activity_permutations_progress_bar);
+        mEmptyView = findViewById(android.R.id.empty);
 
         mPermutationString = i.getStringExtra(PARAM_PERMUTATION_STRING).trim();
         mPermutationString = (mPermutationString == null) ? "": mPermutationString;
 
         mInSep = i.getStringExtra(PARAM_IN_SEP);
         mInSep = mInSep == null ? ATTR_IN_SEP_DEFAULT : mInSep;
-
-        mDM = DictionaryManager.getInstance(this.getApplicationContext());
 
         //Checking input data
         v = new InputStringValidator(this, mInSep);
@@ -82,35 +79,30 @@ public class PermutationsActivity extends ListActivity
         mOutSep = i.getStringExtra(PARAM_OUT_SEP);
         mOutSep = mOutSep == null ? ATTR_OUT_SEP_DEFAULT: mOutSep;
 
-        getActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
         mAdapter = new PermutationsAdapter(this, mOutSep);
 
-        setTitle(String.format(
+        getActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
+        setListAdapter(mAdapter);
+        getListView().setEmptyView(mEmptyView);
+        mEmptyView.setVisibility(View.GONE);
+
+        setTitle(
+            String.format(
                 "%s \"%s\"",
                 getResources().getString(R.string.permutations_for_uc),
                 mPermutationString.replace(mInSep, String.valueOf(mOutSep))
-                )
+            )
         );
 
         getLoaderManager().initLoader(LOADER_ID_PERMUTATIONS, null, this);
     }
 
     @Override
-    public void onStart () {
-        super.onStart();
-
-        final LayoutInflater inflater = LayoutInflater.from(
-                this.getApplicationContext()
-        );
-
-        //TO-DO This doesn't seem to be displayed. Fix it.
-        getListView().setEmptyView(inflater.inflate(R.layout.view_empty, getListView()));
-    }
-
-    @Override
     public Loader<Collection<String[]>> onCreateLoader (int id, Bundle args) {
         if (id == LOADER_ID_PERMUTATIONS) {
-            getListView().setEnabled(false);
+            getListView().setVisibility(View.GONE);
+            mProgress.setVisibility(View.VISIBLE);
+
             return new PermutationsLoader(this, mPermutationString, mInSep);
         }
         return null;
@@ -119,8 +111,8 @@ public class PermutationsActivity extends ListActivity
     @Override
     public void onLoadFinished (Loader<Collection<String[]>> loader, Collection<String[]> data) {
         mAdapter.setData(data);
-        setListAdapter(mAdapter);
-        getListView().setEnabled(true);
+        mProgress.setVisibility(View.GONE);
+        getListView().setVisibility(View.VISIBLE);
 
         setTitle(
                 String.format(

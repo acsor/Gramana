@@ -66,7 +66,7 @@ public class PermutationsAdapter extends BaseAdapter implements Closeable {
         final ViewHolder h;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.adapter_permutation, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.adapter_permutations, parent, false);
             h = new ViewHolder(convertView, mOutSep);
 
             convertView.setTag(h);
