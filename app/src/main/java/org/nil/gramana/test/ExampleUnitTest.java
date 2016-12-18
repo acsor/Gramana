@@ -54,11 +54,10 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void testPermutationsActivityInputValidator () {
-        final String syllables = "a-b-c-d-e-f-g-h-j-k-l-m";
-        final InputValidator<String> v = new PermutationsActivity.InputStringValidator(null, "-");
+    public void testNPE () {
+        final List<Integer> l = new LinkedList(null);
 
-        System.out.println(v.isInputValid(syllables));
+        System.out.println(l);
     }
 
 }

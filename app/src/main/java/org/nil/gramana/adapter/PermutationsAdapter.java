@@ -38,7 +38,11 @@ public class PermutationsAdapter extends BaseAdapter implements Closeable {
     }
 
     public void setData (Collection<String[]> data) {
-        mData = new LinkedList<>(data);
+        if (data == null) {
+            mData = new LinkedList<>();
+        } else {
+            mData = new LinkedList<>(data);
+        }
         notifyDataSetChanged();
     }
 
@@ -114,11 +118,7 @@ public class PermutationsAdapter extends BaseAdapter implements Closeable {
             final Spannable spannable = new SpannableString(Utils.join(data, mOutSep));
             int currIndex = 0;
 
-            //For every syllable in {@code syllables} a different text color is applied
-            //noinspection ForLoopReplaceableByForEach
             for (int i = 0; i < data.length; i++) {
-
-                //If no color is associated to the current syllable:
                 if (!sSyllablesToColors.containsKey(data[i])) {
                     sSyllablesToColors.put(data[i], sColorP.getNextColor());
                 }
@@ -130,12 +130,6 @@ public class PermutationsAdapter extends BaseAdapter implements Closeable {
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                 );
 
-                /*
-                The length of {@code mOutSep} will be added to {@code currIndex} even during the last iteration, where
-                there is no corresponding {@code mOutSep} after the current (and last) syllable. However, this should not
-                be a problem, since {@code currIndex} won't be used after that iteration, so no code checking to add the
-                correct amount to {@code currIndex} will be added.
-                 */
                 currIndex += data[i].length() + mOutSep.length();
             }
 

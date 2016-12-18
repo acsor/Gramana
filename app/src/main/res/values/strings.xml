@@ -18,11 +18,13 @@
     <string name="error_dictionary_not_found">The selected dictionary does not exist</string>
     <string name="dialog_dictionary_title">Dictionaries</string>
     <string name="dictionaries">Dictionaries</string>
+    <string name="no_elements">No elements</string>
     <string name="none">None</string>
     <string name="ok_uppercase">OK</string>
-    <string name="opening_uc">Opening</string>
+    <string name="opened_uc">Opened</string>
     <string name="permute">Permute</string>
     <string name="permutations_for_uc">Permutations for</string>
     <string name="permutations_for_lc">permutations for</string>
     <string name="separate_by_defaults">Separate by space</string>
+
 </resources>

@@ -2,11 +2,15 @@ package org.nil.gramana.activity;
 
 import android.app.ActionBar;
 import android.app.ListActivity;
+import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.Loader;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+import org.nil.gramana.PermutationsLoader;
 import org.nil.gramana.R;
 import org.nil.gramana.adapter.PermutationsAdapter;
 import org.nil.gramana.tools.Dictionary;
@@ -17,15 +21,13 @@ import org.nil.gramana.utils.Utils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Locale;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created by n0ne on 02/10/16.
  */
-public class PermutationsActivity extends ListActivity {
+public class PermutationsActivity extends ListActivity
+    implements LoaderManager.LoaderCallbacks<Collection<String[]>> {
 
     public static final String ATTR_IN_SEP_WHITESPACE = "\\s+?";
     public static final String ATTR_OUT_SEP_WHITESPACE = " ";
@@ -35,6 +37,8 @@ public class PermutationsActivity extends ListActivity {
     public static final String PARAM_PERMUTATION_STRING = "0";
     public static final String PARAM_IN_SEP = "1";
     public static final String PARAM_OUT_SEP = "2";
+
+    public static final int LOADER_ID_PERMUTATIONS = 0;
 
     private String mPermutationString;
     private String mInSep;
@@ -63,7 +67,7 @@ public class PermutationsActivity extends ListActivity {
         //Checking input data
         v = new InputStringValidator(this, mInSep);
 
-        if (!v.isInputValid(mPermutationString)) {  //If input is not valid
+        if (!v.isInputValid(mPermutationString)) {
             Toast.makeText(
                     this,
                     v.getErrorMessage(),
@@ -81,71 +85,57 @@ public class PermutationsActivity extends ListActivity {
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
         mAdapter = new PermutationsAdapter(this, mOutSep);
 
-        updateView();
-    }
-
-    /**
-     * TO-DO Populate mAdapter in another thread. The UI thread is blocked for a few seconds when using the dictionary feature.
-     */
-    private void updateView () {
-        Set<String[]> permutations;
-        final SortedSet<String[]> adapterData = new TreeSet<>(Scrambler.stringArrayComparator);
-        Dictionary dictionary = null;
-
         setTitle(String.format(
                 "%s \"%s\"",
                 getResources().getString(R.string.permutations_for_uc),
                 mPermutationString.replace(mInSep, String.valueOf(mOutSep))
-            )
+                )
         );
 
-        permutations = Scrambler.permute(mPermutationString, mInSep);
-        adapterData.addAll(permutations);
+        getLoaderManager().initLoader(LOADER_ID_PERMUTATIONS, null, this);
+    }
 
-        if (mDM.getSelectedDictionaryFileName() != null) {
-            try {
-                dictionary = mDM.openSelectedDictionary();
-                final SortedSet<String> words = dictionary.getWords();
+    @Override
+    public void onStart () {
+        super.onStart();
 
-                //Show "Opening <filename"
-                Toast.makeText(
-                        this,
-                        String.format(
-                                "%s %s",
-                                getResources().getString(R.string.opening_uc),
-                                mDM.getSelectedDictionaryFileName()
-                        ),
-                        Toast.LENGTH_LONG
-                ).show();
+        final LayoutInflater inflater = LayoutInflater.from(
+                this.getApplicationContext()
+        );
 
-                //Filtering adapterData through dictionary
-                for (String[] e: permutations) {
-                    if (!words.contains(Utils.join(e, "").toLowerCase())) {
-                        adapterData.remove(e);
-                    }
-                }
-            } catch (FileNotFoundException e) {
-                Toast.makeText(
-                        this,
-                        String.format(
-                                "%s (%s)",
-                                getResources().getString(R.string.error_dictionary_not_found),
-                                mDM.getSelectedDictionaryFileName()
-                        ),
-                        Toast.LENGTH_LONG
-                ).show();
-            } catch (IOException e) {
+        //TO-DO This doesn't seem to be displayed. Fix it.
+        getListView().setEmptyView(inflater.inflate(R.layout.view_empty, getListView()));
+    }
 
-            } finally {
-                if (dictionary != null) {
-                    dictionary.close();
-                    dictionary = null;
-                }
-                permutations = null;
-            }
+    @Override
+    public Loader<Collection<String[]>> onCreateLoader (int id, Bundle args) {
+        if (id == LOADER_ID_PERMUTATIONS) {
+            getListView().setEnabled(false);
+            return new PermutationsLoader(this, mPermutationString, mInSep);
         }
+        return null;
+    }
 
-        mAdapter.setData(adapterData);
+    @Override
+    public void onLoadFinished (Loader<Collection<String[]>> loader, Collection<String[]> data) {
+        mAdapter.setData(data);
+        setListAdapter(mAdapter);
+        getListView().setEnabled(true);
+
+        setTitle(
+                String.format(
+                        Locale.getDefault(),
+                        "%d %s \"%s\"",
+                        mAdapter.getCount(),
+                        getResources().getString(R.string.permutations_for_lc),
+                        mPermutationString.replace(mInSep, String.valueOf(mOutSep))
+                )
+        );
+    }
+
+    @Override
+    public void onLoaderReset (Loader<Collection<String[]>> loader) {
+        mAdapter.setData(null);
     }
 
     @Override
@@ -157,21 +147,6 @@ public class PermutationsActivity extends ListActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onResume () {
-        super.onResume();
-
-        setListAdapter(mAdapter);
-        //TODO Be careful about this statement. Perhaps it could be safer to insert it into a Loader callback method
-        setTitle(String.format(
-                Locale.getDefault(),
-                "%d %s \"%s\"",
-                mAdapter.getCount(),
-                getResources().getString(R.string.permutations_for_lc),
-                mPermutationString.replace(mInSep, String.valueOf(mOutSep)))
-        );
     }
 
     @Override
