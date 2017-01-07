@@ -14,6 +14,7 @@ import android.widget.Toast;
 import org.nil.gramana.PermutationsLoader;
 import org.nil.gramana.R;
 import org.nil.gramana.adapters.PermutationsAdapter;
+import org.nil.gramana.models.Permutation;
 import org.nil.gramana.tools.InputValidator;
 
 import java.util.Collection;
@@ -23,7 +24,7 @@ import java.util.Locale;
  * Created by n0ne on 02/10/16.
  */
 public class PermutationsActivity extends ListActivity
-    implements LoaderManager.LoaderCallbacks<Collection<String[]>> {
+    implements LoaderManager.LoaderCallbacks<Collection<Permutation>> {
 
     public static final String ATTR_IN_SEP_WHITESPACE = "\\s+?";
     public static final String ATTR_OUT_SEP_WHITESPACE = " ";
@@ -79,7 +80,7 @@ public class PermutationsActivity extends ListActivity
         mOutSep = i.getStringExtra(PARAM_OUT_SEP);
         mOutSep = mOutSep == null ? ATTR_OUT_SEP_DEFAULT: mOutSep;
 
-        mAdapter = new PermutationsAdapter(this, mOutSep);
+        mAdapter = new PermutationsAdapter(this);
 
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
         setListAdapter(mAdapter);
@@ -98,7 +99,7 @@ public class PermutationsActivity extends ListActivity
     }
 
     @Override
-    public Loader<Collection<String[]>> onCreateLoader (int id, Bundle args) {
+    public Loader<Collection<Permutation>> onCreateLoader (int id, Bundle args) {
         if (id == LOADER_ID_PERMUTATIONS) {
             getListView().setVisibility(View.GONE);
             mProgress.setVisibility(View.VISIBLE);
@@ -109,7 +110,7 @@ public class PermutationsActivity extends ListActivity
     }
 
     @Override
-    public void onLoadFinished (Loader<Collection<String[]>> loader, Collection<String[]> data) {
+    public void onLoadFinished (Loader<Collection<Permutation>> loader, Collection<Permutation> data) {
         mAdapter.setData(data);
         mProgress.setVisibility(View.GONE);
         getListView().setVisibility(View.VISIBLE);
@@ -126,7 +127,7 @@ public class PermutationsActivity extends ListActivity
     }
 
     @Override
-    public void onLoaderReset (Loader<Collection<String[]>> loader) {
+    public void onLoaderReset (Loader<Collection<Permutation>> loader) {
         mAdapter.setData(null);
     }
 

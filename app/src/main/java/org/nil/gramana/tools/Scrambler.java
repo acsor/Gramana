@@ -2,11 +2,13 @@ package org.nil.gramana.tools;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.nil.gramana.models.ArrayPermutation;
+import org.nil.gramana.models.Permutation;
+import org.nil.gramana.models.StringPermutation;
 import org.nil.gramana.utils.Utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -23,23 +25,21 @@ public class Scrambler {
         );
     }
 
-    public static SortedSet<String[]> permute (String s, String inSeparator) {
-        final String[] tokens = s.split(inSeparator);
-        final TreeSet<String[]> permutations = new TreeSet<>(stringArrayComparator);
-
-        for (List<String> p: CollectionUtils.<String>permutations(Arrays.asList(tokens))) {
-            permutations.add(p.toArray(new String[p.size()]));
-        }
-
-        return permutations;
+    public static SortedSet<Permutation> permute (String input, String inSep) {
+        return permute(input, inSep, ArrayPermutation.OUT_SEP_EMPTY);
     }
 
-    public static Set<String> permuteString (String s, String inSep, String outSep) {
-        final String[] tokens = s.split(inSep);
-        final TreeSet<String> permutations = new TreeSet<>();
+    public static SortedSet<Permutation> permute (String input, String inSep, String outSep) {
+        final String[] tokens = input.split(inSep);
+        final SortedSet<Permutation> permutations = new TreeSet<>();
 
-        for (List<String> p: CollectionUtils.<String>permutations(Arrays.asList(tokens))) {
-            permutations.add(Utils.join(p, outSep));
+        for (List<String> permutation: CollectionUtils.<String>permutations(Arrays.asList(tokens))) {
+            permutations.add(
+                    new ArrayPermutation(
+                            permutation.toArray(new String[permutation.size()]),
+                            outSep
+                    )
+            );
         }
 
         return permutations;
@@ -52,17 +52,19 @@ public class Scrambler {
      * @param tokens list of string pieces whose permutations are to be found in {@code file}
      * @return a sorted set of permutations contained in {@code file}
      */
-    public static SortedSet<String> findInFileIgnoreCase (final File file, String[] tokens) throws FileNotFoundException {
-        final SortedSet<String> result = new TreeSet<>();
+    public static SortedSet<Permutation> findInFileIgnoreCase (final File file, String[] tokens) throws FileNotFoundException {
+        final SortedSet<Permutation> result = new TreeSet<>();
 
         final Scanner reader = new Scanner(file, "UTF-8");
         String line;
 
         while (reader.hasNextLine()) {
+            // reader.nextLine() doesn't return content filtered according to a certain Pattern!
+            // TO-DO Filter the input read from file.
             line = reader.nextLine();
 
             if (isPermutationOfIgnoreCase(line, tokens)) {
-                result.add(line);
+                result.add(new StringPermutation(line));
             }
         }
 
@@ -93,14 +95,5 @@ public class Scrambler {
 
         return supposedPermutation.isEmpty();
     }
-
-    public static final Comparator<String[]> stringArrayComparator = new Comparator<String[]> () {
-
-        @Override
-        public int compare (String[] first, String[] second) {
-            return Utils.join(first, "").compareTo(Utils.join(second, ""));
-        }
-
-    };
 
 }

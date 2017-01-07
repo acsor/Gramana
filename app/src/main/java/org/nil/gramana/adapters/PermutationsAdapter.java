@@ -12,6 +12,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import org.nil.gramana.R;
 import org.nil.gramana.activities.PermutationsActivity;
+import org.nil.gramana.models.ArrayPermutation;
+import org.nil.gramana.models.Permutation;
 import org.nil.gramana.tools.ColorProvider;
 import org.nil.gramana.utils.Utils;
 
@@ -24,20 +26,18 @@ import java.util.*;
 public class PermutationsAdapter extends BaseAdapter implements Closeable {
 
     private Context mContext;
-    private List<String[]> mData;
-    private String mOutSep;
+    private List<Permutation> mData;
 
-    public PermutationsAdapter (Context context, String outSep) {
-        this(context, new LinkedList<String[]>(), outSep);
+    public PermutationsAdapter (Context context) {
+        this(context, new LinkedList<Permutation>());
     }
 
-    public PermutationsAdapter (Context context, Collection<String[]> data, String outSep) {
+    public PermutationsAdapter (Context context, Collection<Permutation> data) {
         mContext = context;
         setData(data);
-        mOutSep = outSep;
     }
 
-    public void setData (Collection<String[]> data) {
+    public void setData (Collection<Permutation> data) {
         if (data == null) {
             mData = new LinkedList<>();
         } else {
@@ -67,14 +67,14 @@ public class PermutationsAdapter extends BaseAdapter implements Closeable {
 
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.adapter_permutations, parent, false);
-            h = new ViewHolder(convertView, mOutSep);
+            h = new ViewHolder(convertView);
 
             convertView.setTag(h);
         } else {
             h = (ViewHolder) convertView.getTag();
         }
 
-        h.update((String[]) getItem(position));
+        h.update((Permutation) getItem(position));
 
         return convertView;
     }
@@ -94,12 +94,10 @@ public class PermutationsAdapter extends BaseAdapter implements Closeable {
 
         private static Map<String, Integer> sSyllablesToColors;
         private static ColorProvider sColorP;
-        private String mOutSep;
         private TextView mName;
 
-        ViewHolder (View root, String outSep) {
+        ViewHolder (View root) {
             mName = (TextView) root.findViewById(R.id.adapter_permutation_name);
-            mOutSep = outSep;
 
             if (sSyllablesToColors == null) {
                 sSyllablesToColors = new Hashtable<>();
@@ -114,23 +112,32 @@ public class PermutationsAdapter extends BaseAdapter implements Closeable {
             }
         }
 
-        void update (String[] data) {
-            final Spannable spannable = new SpannableString(Utils.join(data, mOutSep));
-            int currIndex = 0;
+        public void update (Permutation data) {
+            final Spannable spannable;
 
-            for (int i = 0; i < data.length; i++) {
-                if (!sSyllablesToColors.containsKey(data[i])) {
-                    sSyllablesToColors.put(data[i], sColorP.getNextColor());
+            if (data instanceof ArrayPermutation) {
+                final ArrayPermutation castData = (ArrayPermutation) data;
+                final String[] tokens = castData.getTokens();
+                int currIndex = 0;
+
+                spannable = new SpannableString(castData.toString());
+
+                for (int i = 0; i < tokens.length; i++) {
+                    if (!sSyllablesToColors.containsKey(tokens[i])) {
+                        sSyllablesToColors.put(tokens[i], sColorP.getNextColor());
+                    }
+
+                    spannable.setSpan (
+                            new ForegroundColorSpan(sSyllablesToColors.get(tokens[i])),
+                            currIndex,
+                            currIndex + tokens[i].length(),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    );
+
+                    currIndex += tokens[i].length() + castData.getOutSeparator().length();
                 }
-
-                spannable.setSpan (
-                        new ForegroundColorSpan(sSyllablesToColors.get(data[i])),
-                        currIndex,
-                        currIndex + data[i].length(),
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                );
-
-                currIndex += data[i].length() + mOutSep.length();
+            } else {
+                spannable = new SpannableString(data.toString());
             }
 
             mName.setText(spannable);

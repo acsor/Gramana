@@ -1,28 +1,27 @@
 package org.nil.gramana.tests;
 
 import org.junit.Test;
+import org.nil.gramana.models.Permutation;
 import org.nil.gramana.tools.Scrambler;
-import org.nil.gramana.utils.Utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Set;
 import java.util.SortedSet;
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
  */
-public class ExampleUnitTest {
+public class ScramblerUnitTest {
 
     @org.junit.Test
     public void testPermutations () {
         final String word = "Tri co lo re";
-        final Set<String[]> permutations = Scrambler.permute(word, "\\s");
+        final SortedSet<Permutation> permutations = Scrambler.permute(word, "\\s");
 
         System.out.format("Extracted %d permutation(s)\n", permutations.size());
 
-        for (String[] s: permutations) {
-            System.out.println(Utils.join(s, ""));
+        for (Permutation p: permutations) {
+            System.out.println(p);
         }
     }
 
@@ -47,7 +46,7 @@ public class ExampleUnitTest {
         };
         final String dictionaryFileName = "src/main/assets/dictionaries/English dictionary.txt";
         final File dictionaryFile = new File(dictionaryFileName);
-        SortedSet<String> permutations;
+        SortedSet<Permutation> permutations;
 
         try {
             for (String permutation: permutationsTokens) {

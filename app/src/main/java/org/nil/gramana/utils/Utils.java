@@ -7,6 +7,12 @@ import java.util.List;
  */
 public class Utils {
 
+    /**
+     * Joins a String[] array's elements separating them by separator.
+     * @param array String[] array to join.
+     * @param separator separator to distance each element.
+     * @return String with content equal to array's elements separated by separator or an empty String if array == null.
+     */
     public static String join (String[] array, String separator) {
         String result = "";
 
@@ -14,7 +20,7 @@ public class Utils {
             result += array[i];
 
             if (i < array.length - 1) {
-                result += separator;
+                result += String.valueOf(separator);
             }
         }
 
