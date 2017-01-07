@@ -30,21 +30,21 @@ public class ScramblerUnitTest {
     @Test
     public void testFindInFile () {
         final String[] permutationsTokens = {
-                "e s t r i n",
-                "l a p s e",
-                "a s p e r s",
-                "l e a s t",
-                "e n t e r s",
-                "a r l e s",
-                "e a r i n g s",
-                "p e r i s",
-                "a p e r s",
-                "a l e r t s",
-                "c a p e r s",
-                "p a l e s t",
-                "a n e s t r i",
-                "a t e s",
-                "c a r e t s"
+                "E S T R I N",
+                "L A P S E",
+                "A S P E R S",
+                "L E A S T",
+                "E N T E R S",
+                "A R L E S",
+                "E A R I N G s",
+                "P E R I S",
+                "A P E R S",
+                "A L E R T S",
+                "C A P E R S",
+                "P A L E S T",
+                "A N E S T R i",
+                "A T E S",
+                "C A R E T S"
         };
         final String dictionaryFileName = "src/main/assets/dictionaries/English dictionary.txt";
         FileInputStream dictionaryIS = null;

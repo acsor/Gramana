@@ -82,14 +82,8 @@ public class Scrambler {
         }
 
         for (String token: tokens) {
-            /*
-                A bug during a test was found within this loop. It was apparently fixed, but the correctness of this algorithm
-                should nevertheless be proved.
-                TO-DO Prove {@code isPermutationOfIgnoreCase} executes correctly.
-            */
-            // TO-DO This code doesn't work well in case sensitive situations. Improve it.
             if (StringUtils.containsIgnoreCase(supposedPermutation, token)) {
-                supposedPermutation = supposedPermutation.replaceFirst(token, "");
+                supposedPermutation = StringUtils.replaceOnceIgnoreCase(supposedPermutation, token, "");
             } else {
                 return false;
             }
