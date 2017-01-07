@@ -14,8 +14,10 @@ import android.widget.Toast;
 import org.nil.gramana.PermutationsLoader;
 import org.nil.gramana.R;
 import org.nil.gramana.adapters.PermutationsAdapter;
+import org.nil.gramana.models.ArrayPermutation;
 import org.nil.gramana.models.Permutation;
 import org.nil.gramana.tools.InputValidator;
+import org.nil.gramana.tools.Scrambler;
 
 import java.util.Collection;
 import java.util.Locale;
@@ -111,6 +113,9 @@ public class PermutationsActivity extends ListActivity
 
     @Override
     public void onLoadFinished (Loader<Collection<Permutation>> loader, Collection<Permutation> data) {
+        // data.addAll(
+        //         Scrambler.permute("A B C D", "\\s", "++")
+        // );
         mAdapter.setData(data);
         mProgress.setVisibility(View.GONE);
         getListView().setVisibility(View.VISIBLE);

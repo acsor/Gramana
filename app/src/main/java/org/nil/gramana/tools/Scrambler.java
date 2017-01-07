@@ -9,6 +9,7 @@ import org.nil.gramana.utils.Utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -48,14 +49,14 @@ public class Scrambler {
     /**
      * Find all permutations of {@code tokens} contained in {@code file}
      *
-     * @param file InputStream to check permutations from
+     * @param is InputStream to check permutations from
      * @param tokens list of string pieces whose permutations are to be found in {@code file}
      * @return a sorted set of permutations contained in {@code file}
      */
-    public static SortedSet<Permutation> findInFileIgnoreCase (final File file, String[] tokens) throws FileNotFoundException {
+    public static SortedSet<Permutation> findInFileIgnoreCase (final InputStream is, String[] tokens) {
         final SortedSet<Permutation> result = new TreeSet<>();
 
-        final Scanner reader = new Scanner(file, "UTF-8");
+        final Scanner reader = new Scanner(is, "UTF-8");
         String line;
 
         while (reader.hasNextLine()) {
@@ -86,6 +87,7 @@ public class Scrambler {
                 should nevertheless be proved.
                 TO-DO Prove {@code isPermutationOfIgnoreCase} executes correctly.
             */
+            // TO-DO This code doesn't work well in case sensitive situations. Improve it.
             if (StringUtils.containsIgnoreCase(supposedPermutation, token)) {
                 supposedPermutation = supposedPermutation.replaceFirst(token, "");
             } else {

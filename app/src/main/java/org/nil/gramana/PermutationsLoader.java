@@ -6,8 +6,9 @@ import org.nil.gramana.models.Permutation;
 import org.nil.gramana.tools.Scrambler;
 import org.nil.gramana.utils.DictionaryManager;
 
-import java.io.FileNotFoundException;
-import java.util.*;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.SortedSet;
 
 /**
  * Created by n0ne on 17/12/16.
@@ -16,7 +17,7 @@ public class PermutationsLoader extends AsyncTaskLoader<Collection<Permutation>>
 
     private String mPermutationString;
     private String mInSep;
-    private Set<Permutation> mPermutations;
+    private SortedSet<Permutation> mPermutations;
 
     private DictionaryManager mDM;
 
@@ -70,14 +71,11 @@ public class PermutationsLoader extends AsyncTaskLoader<Collection<Permutation>>
     public Collection<Permutation> loadInBackground () {
         if (mDM.getSelectedDictionaryFileName() != null) {
             try {
-                // TO-DO See whether DictionaryManager.getSelectedDictionaryFile() returns a File with the correct path.
                 mPermutations = Scrambler.findInFileIgnoreCase(
-                        mDM.getSelectedDictionaryFile(),
+                        mDM.openSelectedDictionary(),
                         mPermutationString.split(mInSep)
                 );
-
-                // mPermutations = stringPermutationsToArrayPermutations(dictionaryPermutations, mPermutationString.split(mInSep));
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 //TO-DO Figure out a way to communicate this error to the activity or to the user.
                 return null;
             }

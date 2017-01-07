@@ -7,6 +7,7 @@ import org.nil.gramana.tools.Dictionary;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by n0ne on 17/11/16.
@@ -45,16 +46,10 @@ public class DictionaryManager implements Closeable {
         return mSelectedDict;
     }
 
-    public File getSelectedDictionaryFile () {
-        return new File(String.format("%s/%s", sRoot, mSelectedDict));
-    }
-
-    public Dictionary openSelectedDictionary () throws IOException {
-        return new Dictionary(
-                mAssets.open(
-                        String.format("%s/%s", sRoot, mSelectedDict),
-                        AssetManager.ACCESS_BUFFER
-                )
+    public InputStream openSelectedDictionary () throws IOException {
+        return mAssets.open(
+                String.format("%s/%s", sRoot, mSelectedDict),
+                AssetManager.ACCESS_BUFFER
         );
     }
 

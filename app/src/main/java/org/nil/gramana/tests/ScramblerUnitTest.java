@@ -5,7 +5,9 @@ import org.nil.gramana.models.Permutation;
 import org.nil.gramana.tools.Scrambler;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.SortedSet;
 
 /**
@@ -15,7 +17,7 @@ public class ScramblerUnitTest {
 
     @org.junit.Test
     public void testPermutations () {
-        final String word = "Tri co lo re";
+        final String word = "l e a s t";
         final SortedSet<Permutation> permutations = Scrambler.permute(word, "\\s");
 
         System.out.format("Extracted %d permutation(s)\n", permutations.size());
@@ -45,18 +47,32 @@ public class ScramblerUnitTest {
                 "c a r e t s"
         };
         final String dictionaryFileName = "src/main/assets/dictionaries/English dictionary.txt";
-        final File dictionaryFile = new File(dictionaryFileName);
+        FileInputStream dictionaryIS = null;
         SortedSet<Permutation> permutations;
 
         try {
             for (String permutation: permutationsTokens) {
-                permutations = Scrambler.findInFileIgnoreCase(dictionaryFile, permutation.split("\\s"));
+                dictionaryIS = new FileInputStream(dictionaryFileName);
+
+                permutations = Scrambler.findInFileIgnoreCase(dictionaryIS, permutation.split("\\s"));
 
                 System.out.format("Found %d results for \"%s\".\n", permutations.size(), permutation);
                 System.out.println(permutations + "\n");
+
+                dictionaryIS.close();
             }
         } catch (FileNotFoundException e) {
             System.out.format("File %s was not found.", dictionaryFileName);
+        } catch (IOException e) {
+            System.out.println(e);
+        } finally {
+            if (dictionaryIS != null) {
+                try {
+                    dictionaryIS.close();
+                } catch (IOException e) {
+                    System.out.println(e);
+                }
+            }
         }
     }
 
