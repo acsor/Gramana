@@ -14,18 +14,16 @@ import java.util.regex.Pattern;
 public class Dictionary implements Closeable {
 
     private Scanner dictionaryReader;
-    private SortedSet<String> words;
 
     //TO-DO Improve this regex. Digits are allowed in the following pattern.
     private static final Pattern dictionaryWordPattern =
             Pattern.compile("^\\P{Punct}+", Pattern.UNICODE_CASE);
 
     private Dictionary () {
-        words = new TreeSet<>();
     }
 
-    public Dictionary (File dictionaryFile) throws FileNotFoundException {
-        this(new FileInputStream(dictionaryFile));
+    public Dictionary (File file) throws FileNotFoundException {
+        this(new FileInputStream(file));
     }
 
     public Dictionary (InputStream dictionary) throws FileNotFoundException {
@@ -33,7 +31,8 @@ public class Dictionary implements Closeable {
         dictionaryReader = new Scanner(dictionary, "UTF-8");
     }
 
-    public SortedSet<String> getWords () {
+    public SortedSet<String> getAllWords () {
+        final SortedSet<String> words = new TreeSet<>();
         Matcher wordMatcher;
 
         while (dictionaryReader.hasNextLine()) {
@@ -47,9 +46,8 @@ public class Dictionary implements Closeable {
         return words;
     }
 
-    public void close () {
-        words = null;
-
+    @Override
+    public void close () throws IOException {
         if (dictionaryReader != null) {
             dictionaryReader.close();
         }

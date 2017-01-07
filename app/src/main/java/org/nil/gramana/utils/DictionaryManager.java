@@ -4,19 +4,21 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import org.nil.gramana.tools.Dictionary;
 
+import java.io.Closeable;
+import java.io.File;
 import java.io.IOException;
 
 /**
  * Created by n0ne on 17/11/16.
  */
-public class DictionaryManager {
+public class DictionaryManager implements Closeable {
 
     private Context mContext;
     private AssetManager mAssets;
-    private String mSelectedDic;
+    private String mSelectedDict;
 
     private static DictionaryManager sInstance;
-    private static String mRoot = "dictionaries";
+    private static String sRoot = "dictionaries";
 
     public static DictionaryManager getInstance (Context c) {
         if (sInstance == null) {
@@ -32,21 +34,25 @@ public class DictionaryManager {
     private DictionaryManager (Context c) {
         mContext = c.getApplicationContext();
         mAssets = mContext.getResources().getAssets();
-        mSelectedDic = null;
+        mSelectedDict = null;
     }
 
     public String selectDictionary (String fileName) {
-        return mSelectedDic = fileName;
+        return mSelectedDict = fileName;
     }
 
     public String getSelectedDictionaryFileName () {
-        return mSelectedDic;
+        return mSelectedDict;
+    }
+
+    public File getSelectedDictionaryFile () {
+        return new File(String.format("%s/%s", sRoot, mSelectedDict));
     }
 
     public Dictionary openSelectedDictionary () throws IOException {
         return new Dictionary(
                 mAssets.open(
-                        String.format("%s/%s", mRoot, mSelectedDic),
+                        String.format("%s/%s", sRoot, mSelectedDict),
                         AssetManager.ACCESS_BUFFER
                 )
         );
@@ -54,13 +60,13 @@ public class DictionaryManager {
 
     public String[] getDictionaries () {
         try {
-            return mAssets.list(mRoot);
+            return mAssets.list(sRoot);
         } catch (IOException e) {
             return null;
         }
     }
 
-    public void close () throws Exception {
+    public void close () throws IOException {
         mAssets.close();
         sInstance = null;
     }

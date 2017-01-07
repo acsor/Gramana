@@ -2,17 +2,11 @@ package org.nil.gramana;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import org.nil.gramana.tools.Dictionary;
 import org.nil.gramana.tools.Scrambler;
 import org.nil.gramana.utils.DictionaryManager;
-import org.nil.gramana.utils.Utils;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created by n0ne on 17/12/16.
@@ -21,13 +15,9 @@ public class PermutationsLoader extends AsyncTaskLoader<Collection<String[]>> {
 
     private String mPermutationString;
     private String mInSep;
+    private Set<String[]> mPermutations;
 
     private DictionaryManager mDM;
-    private Dictionary mDictionary;
-
-    private Set<String[]> mPermutations;
-    private SortedSet<String> mDictionaryWords;
-    private SortedSet<String[]> mFilteredPermutations;
 
     public PermutationsLoader (Context context, String inputString, String inSep) {
         super(context.getApplicationContext());
@@ -47,11 +37,11 @@ public class PermutationsLoader extends AsyncTaskLoader<Collection<String[]>> {
 
     @Override
     public void onStartLoading () {
-        if (mFilteredPermutations != null) {
-            deliverResult(mFilteredPermutations);
+        if (mPermutations != null) {
+            deliverResult(mPermutations);
         }
 
-        if (mFilteredPermutations == null) {
+        if (mPermutations == null) {
             forceLoad();
         }
     }
@@ -77,56 +67,41 @@ public class PermutationsLoader extends AsyncTaskLoader<Collection<String[]>> {
 
     @Override
     public Collection<String[]> loadInBackground () {
-        mFilteredPermutations = new TreeSet<>(Scrambler.stringArrayComparator);
-
-        mPermutations = Scrambler.permute(mPermutationString, mInSep);
-        mFilteredPermutations.addAll(mPermutations);
+        final SortedSet<String> dictionaryPermutations;
 
         if (mDM.getSelectedDictionaryFileName() != null) {
             try {
-                mDictionary = mDM.openSelectedDictionary();
-                mDictionaryWords = mDictionary.getWords();
+                // TO-DO See whether DictionaryManager.getSelectedDictionaryFile() returns a File with the correct path.
+                dictionaryPermutations = Scrambler.findInFileIgnoreCase(
+                        mDM.getSelectedDictionaryFile(),
+                        mPermutationString.split(mInSep)
+                );
 
-                //Filtering mPermutations through dictionary
-                for (String[] e: mPermutations) {
-                    if (!mDictionaryWords.contains(Utils.join(e, "").toLowerCase())) {
-                        //Attempting to modify the mPermutations attribute which is being iterated over
-                        //would yield a state error. Hence, we need to make a copy of it.
-                        //TO-DO Try to see if there is any better performing solution to this.
-                        mFilteredPermutations.remove(e);
-                    }
-                }
+                mPermutations = stringPermutationsToArrayPermutations(dictionaryPermutations, mPermutationString.split(mInSep));
             } catch (FileNotFoundException e) {
-                //TO-DO Figure out a way to communicate this error state to the activity or to the user.
-                //Directly invoking a Toast from here doesn't seem appropriate.
-                // Toast.makeText(
-                //         this,
-                //         String.format(
-                //                 "%s (%s)",
-                //                 getResources().getString(R.string.error_dictionary_not_found),
-                //                 mDM.getSelectedDictionaryFileName()
-                //         ),
-                //         Toast.LENGTH_LONG
-                // ).show();
-                return null;
-            } catch (IOException e) {
-                //TO-DO Figure out a way to communicate this error state to the activity or to the user.
+                //TO-DO Figure out a way to communicate this error to the activity or to the user.
                 return null;
             }
+        } else {
+            mPermutations = Scrambler.permute(mPermutationString, mInSep);
         }
 
-        return mFilteredPermutations;
+        return mPermutations;
+    }
+
+    private SortedSet<String[]> stringPermutationsToArrayPermutations (SortedSet<String> permutations, String[] tokens) {
+        final SortedSet<String[]> result = new TreeSet<>(Scrambler.stringArrayComparator);
+
+        for (String permutation: permutations) {
+            result.add(new String[]{permutation});
+        }
+
+        return result;
     }
 
     public void close () {
         mDM = null;
-        if (mDictionary != null) {
-            mDictionary.close();
-        }
-
         mPermutations = null;
-        mDictionaryWords = null;
-        mFilteredPermutations = null;
     }
 
 }

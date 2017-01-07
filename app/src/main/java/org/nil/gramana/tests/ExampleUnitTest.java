@@ -1,19 +1,20 @@
 package org.nil.gramana.tests;
 
-import org.nil.gramana.tools.Scrambler;
 import org.junit.Test;
+import org.nil.gramana.tools.Scrambler;
 import org.nil.gramana.utils.Utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.Set;
+import java.util.SortedSet;
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
  */
 public class ExampleUnitTest {
 
-    @Test
+    @org.junit.Test
     public void testPermutations () {
         final String word = "Tri co lo re";
         final Set<String[]> permutations = Scrambler.permute(word, "\\s");
@@ -26,36 +27,38 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void testDictionaryFeature () {
-        final String permutationWord = "t o r t a";
-        final String inSep = "\\s";
-        final Set<String> permutations = Scrambler.permuteString(permutationWord, inSep, "");
-
-        final String dictionaryFileName = "src/main/assets/dictionaries/Italian dictionary.txt";
-        final org.nil.gramana.tools.Dictionary dictionary;
+    public void testFindInFile () {
+        final String[] permutationsTokens = {
+                "e s t r i n",
+                "l a p s e",
+                "a s p e r s",
+                "l e a s t",
+                "e n t e r s",
+                "a r l e s",
+                "e a r i n g s",
+                "p e r i s",
+                "a p e r s",
+                "a l e r t s",
+                "c a p e r s",
+                "p a l e s t",
+                "a n e s t r i",
+                "a t e s",
+                "c a r e t s"
+        };
+        final String dictionaryFileName = "src/main/assets/dictionaries/English dictionary.txt";
+        final File dictionaryFile = new File(dictionaryFileName);
+        SortedSet<String> permutations;
 
         try {
-            dictionary = new org.nil.gramana.tools.Dictionary(new File(dictionaryFileName));
+            for (String permutation: permutationsTokens) {
+                permutations = Scrambler.findInFileIgnoreCase(dictionaryFile, permutation.split("\\s"));
+
+                System.out.format("Found %d results for \"%s\".\n", permutations.size(), permutation);
+                System.out.println(permutations + "\n");
+            }
         } catch (FileNotFoundException e) {
-            System.err.format("\"%s\" not found\n", dictionaryFileName);
-            return;
+            System.out.format("File %s was not found.", dictionaryFileName);
         }
-
-        permutations.retainAll(dictionary.getWords());
-
-        System.out.format("Found %d matches in \"%s\"\n", permutations.size(),
-                dictionaryFileName);
-
-        if (!permutations.isEmpty()) {
-            System.out.println(permutations);
-        }
-    }
-
-    @Test
-    public void testNPE () {
-        final List<Integer> l = new LinkedList(null);
-
-        System.out.println(l);
     }
 
 }
