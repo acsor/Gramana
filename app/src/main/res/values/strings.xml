@@ -2,10 +2,8 @@
     <string name="name_app">Gramana</string>
 
     <string name="activity_main_desc">
-        Gramana (Gram-a-na, a play on words from A-na-gram) is a sample application created by a developer
-        trying to brush up his Android knowledge.
-        Currently, it includes only a feature for the permutation of up to seven string pieces, that you may try here
-        below.
+        Gramana (Gram-an-a, a play on words from An-a-gram) is an Android application created by a developer trying to brush up his Android knowledge.
+        Currently, you can permute up to seven tokens and filter the results against a few dictionaries.
     </string>
 
     <string name="activity_permutations_input_validator">
