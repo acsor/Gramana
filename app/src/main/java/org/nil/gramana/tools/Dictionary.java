@@ -16,8 +16,8 @@ public class Dictionary implements Closeable {
     private Scanner dictionaryReader;
 
     //TO-DO Improve this regex. Digits are allowed in the following pattern.
-    public static final Pattern dictionaryWordPattern =
-            Pattern.compile("^\\P{Punct}+", Pattern.UNICODE_CASE);
+    public static final Pattern PATTERN_DICTIONARY_WORD =
+            Pattern.compile("^\\P{Punct}+", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     private Dictionary () {
     }
@@ -36,7 +36,7 @@ public class Dictionary implements Closeable {
         Matcher wordMatcher;
 
         while (dictionaryReader.hasNextLine()) {
-            wordMatcher = dictionaryWordPattern.matcher(dictionaryReader.nextLine());
+            wordMatcher = PATTERN_DICTIONARY_WORD.matcher(dictionaryReader.nextLine());
 
             if (wordMatcher.lookingAt()) {
                 words.add(wordMatcher.group().toLowerCase(Locale.getDefault()));

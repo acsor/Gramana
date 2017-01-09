@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.nil.gramana.models.Permutation;
 import org.nil.gramana.tools.Scrambler;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,9 +12,9 @@ import java.util.SortedSet;
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
  */
-public class ScramblerUnitTest {
+public class ScramblerTest {
 
-    @org.junit.Test
+    @Test
     public void testPermutations () {
         final String word = "l e a s t";
         final SortedSet<Permutation> permutations = Scrambler.permute(word, "\\s");
@@ -28,7 +27,7 @@ public class ScramblerUnitTest {
     }
 
     @Test
-    public void testFindInFile () {
+    public void testFindInFileEnglish () {
         final String[] permutationsTokens = {
                 "E S T R I N",
                 "L A P S E",
@@ -46,13 +45,34 @@ public class ScramblerUnitTest {
                 "A T E S",
                 "C A R E T S"
         };
-        final String dictionaryFileName = "src/main/assets/dictionaries/English dictionary.txt";
+        final String dictionary = "src/main/assets/dictionaries/English dictionary.txt";
+
+        findInFile(permutationsTokens, dictionary);
+    }
+
+    @Test
+    public void testFindInFileItalian () {
+        final String[] permutationsTokens = {
+                "p r o s a",
+                "t o r a c e",
+                "a p e r t o",
+                "m i n a t o r e",
+                "m a r e",
+                "s a l u t e",
+                "f o r t e"
+        };
+        final String dictionary = "src/main/assets/dictionaries/Italian dictionary.txt";
+
+        findInFile(permutationsTokens, dictionary);
+    }
+
+    private void findInFile (final String[] permutationsTokens, final String dictionary) {
         FileInputStream dictionaryIS = null;
         SortedSet<Permutation> permutations;
 
         try {
             for (String permutation: permutationsTokens) {
-                dictionaryIS = new FileInputStream(dictionaryFileName);
+                dictionaryIS = new FileInputStream(dictionary);
 
                 permutations = Scrambler.findInFileIgnoreCase(dictionaryIS, permutation.split("\\s"));
 
@@ -62,7 +82,7 @@ public class ScramblerUnitTest {
                 dictionaryIS.close();
             }
         } catch (FileNotFoundException e) {
-            System.out.format("File %s was not found.", dictionaryFileName);
+            System.out.format("File %s was not found.", dictionary);
         } catch (IOException e) {
             System.out.println(e);
         } finally {

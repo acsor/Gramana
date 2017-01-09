@@ -7,10 +7,9 @@ import org.nil.gramana.models.Permutation;
 import org.nil.gramana.models.StringPermutation;
 import org.nil.gramana.utils.Utils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -48,6 +47,7 @@ public class Scrambler {
 
     /**
      * Find all permutations of {@code tokens} contained in {@code file}
+     * TO-DO This method runs slowly, especially on Android phones. Optimize it.
      *
      * @param is InputStream to check permutations from
      * @param tokens list of string pieces whose permutations are to be found in {@code file}
@@ -57,15 +57,19 @@ public class Scrambler {
         final SortedSet<Permutation> result = new TreeSet<>();
 
         final Scanner reader = new Scanner(is, "UTF-8");
-        String line;
+        final String joinedTokens = Utils.join(tokens, "");
+        String word;
+        Matcher wordMatcher;
 
         while (reader.hasNextLine()) {
-            // reader.nextLine() doesn't return content filtered according to a certain Pattern!
-            // TO-DO Filter the input read from file.
-            line = reader.nextLine();
+            wordMatcher = Dictionary.PATTERN_DICTIONARY_WORD.matcher(reader.nextLine());
 
-            if (isPermutationOfIgnoreCase(line, tokens)) {
-                result.add(new StringPermutation(line));
+            if (wordMatcher.lookingAt()) {
+                word = wordMatcher.group();
+
+                if (word != null && isPermutationOfIgnoreCase(word, tokens, joinedTokens)) { // Unsure if to check against null values for word
+                    result.add(new StringPermutation(word));
+                }
             }
         }
 
@@ -76,8 +80,8 @@ public class Scrambler {
         return result;
     }
 
-    private static boolean isPermutationOfIgnoreCase (String supposedPermutation, final String tokens[]) {
-        if (Utils.lengthAsJoinedString(tokens) != supposedPermutation.length()) {
+    private static boolean isPermutationOfIgnoreCase (String supposedPermutation, String tokens[], String joinedTokens) {
+        if (joinedTokens.length() != supposedPermutation.length()) {
             return false;
         }
 
