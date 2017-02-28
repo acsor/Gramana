@@ -7,7 +7,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import org.nil.gramana.R;
-import org.nil.gramana.utils.DictionaryManager;
+import org.nil.gramana.utils.ApplicationDictionaryManager;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class DictionaryDialog extends DialogFragment {
     public Dialog onCreateDialog (Bundle savedInstanceState) {
         final AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
         final Resources r = getActivity().getResources();
-        final DictionaryManager m = DictionaryManager.getInstance(getActivity().getApplicationContext());
+        final ApplicationDictionaryManager m = ApplicationDictionaryManager.getInstance(getActivity().getApplicationContext());
         final List<String> dictionaries = new LinkedList<>();
 
         dictionaries.add(r.getString(R.string.none));

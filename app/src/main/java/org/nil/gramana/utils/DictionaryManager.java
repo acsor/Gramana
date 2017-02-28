@@ -1,69 +1,71 @@
 package org.nil.gramana.utils;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import org.nil.gramana.tools.Dictionary;
-
-import java.io.Closeable;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.util.Scanner;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
- * Created by n0ne on 17/11/16.
+ * Utility class to provide CRUD operations on dictionary files.
  */
-public class DictionaryManager implements Closeable {
+public class DictionaryManager {
 
-    private Context mContext;
-    private AssetManager mAssets;
-    private String mSelectedDict;
+	//TO-DO Improve this regex. Digits are allowed in the following pattern.
+	public static final Pattern PATTERN_DICTIONARY_WORD =
+			Pattern.compile("^\\P{Punct}+", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
-    private static DictionaryManager sInstance;
-    private static String sRoot = "dictionaries";
+	/**
+	 * Reads {@code source} line by line writing filtered content to {@code out} whenever a line matches against
+	 * {@code PATTERN_DICTIONARY_WORD}.
+	 * @param source raw dictionary file to vocabulary read terms from.
+	 * @param out filename where to write filtered vocabulary terms.
+	 * @return false if the method encounters errors, true otherwise.
+	 * @throws FileNotFoundException
+	 * @throws UnsupportedEncodingException
+	 */
+	public static boolean createDictionary (File source, String out) throws FileNotFoundException, UnsupportedEncodingException {
+		final Scanner reader = new Scanner(source, "UTF-8");
+		final PrintStream writer = new PrintStream(out, "UTF-8");
+		Matcher wordMatcher;
 
-    public static DictionaryManager getInstance (Context c) {
-        if (sInstance == null) {
-            sInstance = new DictionaryManager(c);
-        }
-        return sInstance;
-    }
+		while (reader.hasNextLine()) {
+			wordMatcher = PATTERN_DICTIONARY_WORD.matcher(reader.nextLine());
 
-    private DictionaryManager () {
-        throw new IllegalStateException("Cannot instantiate a DictionaryManager instance through default constructor");
-    }
+			if (wordMatcher.lookingAt()) {
+				writer.println(wordMatcher.group());
 
-    private DictionaryManager (Context c) {
-        mContext = c.getApplicationContext();
-        mAssets = mContext.getResources().getAssets();
-        mSelectedDict = null;
-    }
+				if (writer.checkError()) {
+					reader.close();
+					writer.close();
 
-    public String selectDictionary (String fileName) {
-        return mSelectedDict = fileName;
-    }
+					return false;
+				}
+			}
+		}
 
-    public String getSelectedDictionaryFileName () {
-        return mSelectedDict;
-    }
+		reader.close();
+		writer.close();
 
-    public InputStream openSelectedDictionary () throws IOException {
-        return mAssets.open(
-                String.format("%s/%s", sRoot, mSelectedDict),
-                AssetManager.ACCESS_BUFFER
-        );
-    }
+		return true;
+	}
 
-    public String[] getDictionaries () {
-        try {
-            return mAssets.list(sRoot);
-        } catch (IOException e) {
-            return null;
-        }
-    }
+	public static SortedSet<String> readDictionary (final File source) throws FileNotFoundException {
+		final Scanner reader = new Scanner(source, "UTF-8");
+		final SortedSet<String> words = new TreeSet<>();
 
-    public void close () throws IOException {
-        mAssets.close();
-        sInstance = null;
-    }
+		while (reader.hasNextLine()) {
+			words.add(reader.nextLine());
+		}
+
+		reader.close();
+
+		return words;
+	}
+
 
 }

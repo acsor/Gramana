@@ -14,8 +14,7 @@ import org.nil.gramana.R;
 import org.nil.gramana.activities.PermutationsActivity;
 import org.nil.gramana.models.ArrayPermutation;
 import org.nil.gramana.models.Permutation;
-import org.nil.gramana.tools.ColorProvider;
-import org.nil.gramana.utils.Utils;
+import org.nil.gramana.utils.ColorProvider;
 
 import java.io.Closeable;
 import java.util.*;

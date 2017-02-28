@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Gramana.iml" filepath="$PROJECT_DIR$/.idea/modules/Gramana.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gramana/gramana.iml" filepath="$PROJECT_DIR$/.idea/modules/gramana/gramana.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Gramana.iml" filepath="$PROJECT_DIR$/Gramana.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gramana/gramana.iml" filepath="$PROJECT_DIR$/gramana/gramana.iml" />
     </modules>
   </component>
 </project>

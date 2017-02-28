@@ -1,4 +1,4 @@
-package org.nil.gramana.tools;
+package org.nil.gramana.utils;
 
 import android.content.Context;
 import org.nil.gramana.R;

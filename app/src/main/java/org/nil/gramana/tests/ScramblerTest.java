@@ -2,7 +2,7 @@ package org.nil.gramana.tests;
 
 import org.junit.Test;
 import org.nil.gramana.models.Permutation;
-import org.nil.gramana.tools.Scrambler;
+import org.nil.gramana.utils.Scrambler;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

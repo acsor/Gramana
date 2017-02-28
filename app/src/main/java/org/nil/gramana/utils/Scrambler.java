@@ -1,11 +1,10 @@
-package org.nil.gramana.tools;
+package org.nil.gramana.utils;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.nil.gramana.models.ArrayPermutation;
 import org.nil.gramana.models.Permutation;
 import org.nil.gramana.models.StringPermutation;
-import org.nil.gramana.utils.Utils;
 
 import java.io.InputStream;
 import java.util.*;
@@ -62,7 +61,8 @@ public class Scrambler {
         Matcher wordMatcher;
 
         while (reader.hasNextLine()) {
-            wordMatcher = Dictionary.PATTERN_DICTIONARY_WORD.matcher(reader.nextLine());
+            //wordMatcher = DictionaryReader.PATTERN_DICTIONARY_WORD.matcher(reader.nextLine());
+			wordMatcher = null;
 
             if (wordMatcher.lookingAt()) {
                 word = wordMatcher.group();

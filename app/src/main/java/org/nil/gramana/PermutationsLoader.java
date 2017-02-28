@@ -3,8 +3,8 @@ package org.nil.gramana;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 import org.nil.gramana.models.Permutation;
-import org.nil.gramana.tools.Scrambler;
-import org.nil.gramana.utils.DictionaryManager;
+import org.nil.gramana.utils.Scrambler;
+import org.nil.gramana.utils.ApplicationDictionaryManager;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -19,13 +19,13 @@ public class PermutationsLoader extends AsyncTaskLoader<Collection<Permutation>>
     private String mInSep;
     private SortedSet<Permutation> mPermutations;
 
-    private DictionaryManager mDM;
+    private ApplicationDictionaryManager mDM;
 
     public PermutationsLoader (Context context, String inputString, String inSep) {
         super(context.getApplicationContext());
         mPermutationString = inputString;
         mInSep = inSep;
-        mDM = DictionaryManager.getInstance(context.getApplicationContext());
+        mDM = ApplicationDictionaryManager.getInstance(context.getApplicationContext());
     }
 
     @Override
@@ -72,7 +72,7 @@ public class PermutationsLoader extends AsyncTaskLoader<Collection<Permutation>>
         if (mDM.getSelectedDictionaryFileName() != null) {
             try {
                 mPermutations = Scrambler.findInFileIgnoreCase(
-                        mDM.openSelectedDictionary(),
+                        mDM.selectedDictionaryInputStream(),
                         mPermutationString.split(mInSep)
                 );
             } catch (IOException e) {

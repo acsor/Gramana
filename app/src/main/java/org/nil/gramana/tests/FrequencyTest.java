@@ -37,7 +37,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
-import org.nil.gramana.tools.Dictionary;
 
 public class FrequencyTest {
 
@@ -57,7 +56,9 @@ public class FrequencyTest {
             s = new Scanner(new File(fileName));
 
             while (s.hasNextLine()) {
-                wordMatcher = Dictionary.PATTERN_DICTIONARY_WORD.matcher(s.nextLine());
+                //wordMatcher = DictionaryReader.PATTERN_DICTIONARY_WORD.matcher(s.nextLine());
+				//TO-DO Fix this assignment.
+				wordMatcher = null;
 
                 if (wordMatcher.lookingAt()) {
                     word = wordMatcher.group(0);

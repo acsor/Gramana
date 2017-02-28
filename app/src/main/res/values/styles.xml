@@ -19,7 +19,6 @@
         <item name="android:buttonStyle">@android:style/Widget.Holo.Button.Borderless</item>
         <item name="android:editTextStyle">@android:style/Widget.Holo.EditText</item>
         <item name="android:textViewStyle">@style/textViewStyle</item>
-        <!-- TO-DO Change every ProgessBar color to something different than blue. -->
     </style>
 
     <style name="textViewStyle">
