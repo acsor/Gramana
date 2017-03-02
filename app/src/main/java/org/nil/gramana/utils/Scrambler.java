@@ -45,12 +45,13 @@ public class Scrambler {
     }
 
     /**
-     * Find all permutations of {@code tokens} contained in {@code file}
-     * TO-DO This method runs slowly, especially on Android phones. Optimize it.
+     * Find all permutations of {@code tokens} contained in the InputStream {@code is}.<br>
+	 * The InputStream is is assumed to represent a dictionary (a list of dictionary words)
+	 * divided line by line and as produced by DictionaryManager.createDictionary() method.
      *
-     * @param is InputStream to check permutations from
-     * @param tokens list of string pieces whose permutations are to be found in {@code file}
-     * @return a sorted set of permutations contained in {@code file}
+     * @param is InputStream to check permutations from.
+     * @param tokens list of string pieces whose permutations are to be found in {@code file}.
+     * @return a sorted set of permutations contained in {@code file}.
      */
     public static SortedSet<Permutation> findInFileIgnoreCase (final InputStream is, String[] tokens) {
         final SortedSet<Permutation> result = new TreeSet<>();
@@ -58,24 +59,16 @@ public class Scrambler {
         final Scanner reader = new Scanner(is, "UTF-8");
         final String joinedTokens = Utils.join(tokens, "");
         String word;
-        Matcher wordMatcher;
 
         while (reader.hasNextLine()) {
-            //wordMatcher = DictionaryReader.PATTERN_DICTIONARY_WORD.matcher(reader.nextLine());
-			wordMatcher = null;
+        	word = reader.nextLine();
 
-            if (wordMatcher.lookingAt()) {
-                word = wordMatcher.group();
+			if (word != null && isPermutationOfIgnoreCase(word, tokens, joinedTokens)) { // Unsure if to check against null values for word
+				result.add(new StringPermutation(word));
+			}
+		}
 
-                if (word != null && isPermutationOfIgnoreCase(word, tokens, joinedTokens)) { // Unsure if to check against null values for word
-                    result.add(new StringPermutation(word));
-                }
-            }
-        }
-
-        if (reader != null) {
-            reader.close();
-        }
+		reader.close();
 
         return result;
     }

@@ -3,8 +3,8 @@ package org.nil.gramana;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 import org.nil.gramana.models.Permutation;
-import org.nil.gramana.utils.Scrambler;
 import org.nil.gramana.utils.ApplicationDictionaryManager;
+import org.nil.gramana.utils.Scrambler;
 
 import java.io.IOException;
 import java.util.Collection;

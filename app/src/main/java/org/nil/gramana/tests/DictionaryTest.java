@@ -16,13 +16,27 @@ public class DictionaryTest {
 	private static String PATH_DICT_ROOT = "src/main/assets/dictionaries/";
 
 	@Test
-	public void testDictionaryConverter () throws FileNotFoundException, UnsupportedEncodingException {
+	public void testCreateDictionary () throws FileNotFoundException, UnsupportedEncodingException {
 		final String
 				in = PATH_DICT_ROOT + "Italian dictionary.txt",
 				out = PATH_DICT_ROOT + "Filtered italian dictionary.txt";
 
 		Assert.assertTrue(
 				DictionaryManager.createDictionary(
+						new File(in),
+						out
+				)
+		);
+	}
+
+	@Test(expected = DictionaryManager.FileFoundException.class)
+	public void testCreateDictionaryIfNotExists () throws FileNotFoundException, UnsupportedEncodingException {
+		final String
+				in = PATH_DICT_ROOT + "Italian dictionary.txt",
+				out = PATH_DICT_ROOT + "Filtered italian dictionary.txt";
+
+		Assert.assertTrue(
+				DictionaryManager.createDictionaryIfNotExists(
 						new File(in),
 						out
 				)

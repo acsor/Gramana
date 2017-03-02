@@ -3,6 +3,7 @@ package org.nil.gramana.dialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -16,6 +17,8 @@ import java.util.List;
  * Created by n0ne on 19/11/16.
  */
 public class DictionaryDialog extends DialogFragment {
+
+	public static final int REQUEST_PICK_DICTIONARY = 1;
 
     @Override
     public Dialog onCreateDialog (Bundle savedInstanceState) {
@@ -38,7 +41,28 @@ public class DictionaryDialog extends DialogFragment {
             }
 
         })
-        .setSingleChoiceItems(dictionaries.toArray(new String[dictionaries.size()]),
+		//Using setPositiveButton() for letting the dialog disappear once the button is clicked
+		//(assuming it actually does it)
+		.setPositiveButton(R.string.Import, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick (DialogInterface dialog, int which) {
+				final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+
+				intent.setType("text/plain");
+				intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+				intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+				if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+					getActivity().startActivityForResult(intent, DictionaryDialog.REQUEST_PICK_DICTIONARY);
+				} else {
+					//TO-DO Add visual feedback for the user in case there is no component to handle the Intent request.
+				}
+			}
+
+		})
+        .setSingleChoiceItems(
+        		dictionaries.toArray(new String[dictionaries.size()]),
                 m.getSelectedDictionaryFileName() == null ? 0: dictionaries.indexOf(m.getSelectedDictionaryFileName()),
                 new DialogInterface.OnClickListener() {
 

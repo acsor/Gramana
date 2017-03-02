@@ -13,9 +13,15 @@
 
     <string name="cancel">Cancel</string>
     <string name="default_sep"> </string>
-    <string name="error_dictionary_not_found">The selected dictionary does not exist</string>
+    <string name="error_dictionary_already_exists">A dictionary with the same name already exists.</string>
+    <string name="error_dictionary_not_found">The selected dictionary does not exist.</string>
+    <string name="error_local_files_only">Can only import dictionaries stored locally.</string>
+    <string name="error_creating_dictionary">
+        An error occurred while importing. The dictionary may have not been imported correctly.
+    </string>
     <string name="dialog_dictionary_title">Dictionaries</string>
     <string name="dictionaries">Dictionaries</string>
+    <string name="Import">Import</string>
     <string name="no_elements">No elements</string>
     <string name="none">None</string>
     <string name="ok_uppercase">OK</string>
