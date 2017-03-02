@@ -28,7 +28,7 @@ public class StringPermutation implements Permutation {
                     String.valueOf(((StringPermutation) another).permutation)
             );
         } else {
-            return String.valueOf(permutation).compareTo(another.toString());
+            return String.valueOf(permutation).compareTo(String.valueOf(another));
         }
     }
 

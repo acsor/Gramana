@@ -164,12 +164,14 @@ public class MainActivity extends FragmentActivity
 							R.string.error_creating_dictionary,
 							Toast.LENGTH_LONG
 					).show();
-					//dictMg.deleteDictionary(destName); //Perhaps it is not the case to delete the dictionary
-					//when an error occurs.
 				}
 			}
 		} catch (FileNotFoundException e) {
-			//TO-DO Handle this exception.
+			Toast.makeText(
+					this,
+					R.string.error_dictionary_not_found,
+					Toast.LENGTH_LONG
+			).show();
 		} catch (UnsupportedEncodingException e) {
 
 		} finally {

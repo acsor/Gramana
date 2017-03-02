@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  */
 public class DictionaryManager {
 
-	//TO-DO Improve this regex. Digits are allowed in the following pattern.
+	//TO-DO Improve this regex. Digits are allowed a the start of a string.
 	public static final Pattern PATTERN_DICTIONARY_WORD =
 			Pattern.compile("^\\P{Punct}+", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 

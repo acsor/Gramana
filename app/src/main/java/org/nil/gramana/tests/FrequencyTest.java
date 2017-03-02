@@ -47,30 +47,22 @@ public class FrequencyTest {
         List<String> l;
 
         final Scanner s;
-        final String fileName = "src/main/assets/dictionaries/Italian dictionary.txt";
+        final String fileName = "src/main/assets/dictionaries/Filtered italian dictionary.txt";
         int minGroupSize = 6;
         String word, alpha;
-        Matcher wordMatcher;
 
         try {
             s = new Scanner(new File(fileName));
 
             while (s.hasNextLine()) {
-                //wordMatcher = DictionaryReader.PATTERN_DICTIONARY_WORD.matcher(s.nextLine());
-				//TO-DO Fix this assignment.
-				wordMatcher = null;
-
-                if (wordMatcher.lookingAt()) {
-                    word = wordMatcher.group(0);
-                } else {
-                    continue;
-                }
+            	word = s.nextLine();
 
                 alpha = alphabetize(word);
                 l = m.get(alpha);
 
-                if (l == null)
-                    m.put(alpha, l = new ArrayList<>());
+                if (l == null) {
+                	m.put(alpha, l = new ArrayList<>());
+				}
 
                 l.add(word);
             }
