@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import org.nil.gramana.R;
 import org.nil.gramana.dialogs.DictionaryDialog;
+import org.nil.gramana.threading.ImportDictionaryTask;
 import org.nil.gramana.utils.ApplicationDictionaryManager;
 
 import java.io.*;
@@ -129,63 +130,7 @@ public class MainActivity extends FragmentActivity
 	}
 
 	private void onActivityResultDictionaryImport (final Intent intent) {
-		final ApplicationDictionaryManager dictMg = ApplicationDictionaryManager.getInstance(this);
-		InputStream dictInput = null;
-		OutputStream dictOutput = null;
-		String destName;
-
-		try {
-			destName = new File(intent.getData().getPath()).getName(); //We are supposing the URI points to a local file
-
-			if (destName == null) { //If getLastPathSegment() method above returns null, i.e. the path is empty:
-				Toast.makeText(
-						this,
-						R.string.error_local_files_only,
-						Toast.LENGTH_LONG
-				).show();
-			} else {
-				if (dictMg.dictionaryExists(destName)) { //If a dictionary with the same name already exists:
-					//TO-DO Continue implementing here.
-					Toast.makeText(
-							this,
-							R.string.error_dictionary_already_exists,
-							Toast.LENGTH_LONG
-					).show();
-					return;
-				}
-
-				dictInput = getContentResolver().openInputStream(intent.getData());
-				dictOutput = openFileOutput(destName, Context.MODE_PRIVATE);
-
-				//If some errors occurred while importing/creating the dictionary:
-				if (!ApplicationDictionaryManager.createDictionary(dictInput, dictOutput)) {
-					Toast.makeText(
-							this,
-							R.string.error_creating_dictionary,
-							Toast.LENGTH_LONG
-					).show();
-				}
-			}
-		} catch (FileNotFoundException e) {
-			Toast.makeText(
-					this,
-					R.string.error_dictionary_not_found,
-					Toast.LENGTH_LONG
-			).show();
-		} catch (UnsupportedEncodingException e) {
-
-		} finally {
-			try {
-				if (dictInput != null) {
-					dictInput.close();
-				}
-				if (dictOutput != null) {
-					dictOutput.close();
-				}
-			} catch (IOException e) {
-
-			}
-		}
+    	new ImportDictionaryTask(this).execute(intent.getData());
 	}
 
     public static class EditTextInputValidator extends PermutationsActivity.InputStringValidator {

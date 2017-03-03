@@ -46,8 +46,8 @@ public class Scrambler {
 
     /**
      * Find all permutations of {@code tokens} contained in the InputStream {@code is}.<br>
-	 * The InputStream is is assumed to represent a dictionary (a list of dictionary words)
-	 * divided line by line and as produced by DictionaryManager.createDictionary() method.
+	 * The InputStream is assumed to represent a list of dictionary words (a dictionary)
+	 * divided line by line or, alternatively, as produced by DictionaryManager.createDictionary() method.
      *
      * @param is InputStream to check permutations from.
      * @param tokens list of string pieces whose permutations are to be found in {@code file}.
