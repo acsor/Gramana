@@ -4,7 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.widget.Toast;
+import android.support.v7.app.AlertDialog;
 import org.nil.gramana.R;
 import org.nil.gramana.utils.ApplicationDictionaryManager;
 
@@ -32,7 +32,7 @@ public class ImportDictionaryTask extends AsyncTask<Uri, Void, Integer> {
 	public void onPreExecute () {
 		mDialog = ProgressDialog.show(
 				mContext,
-				mContext.getResources().getString(R.string.importing_dictionary),
+				mContext.getResources().getString(R.string.importing_dictionary_title),
 				mContext.getResources().getString(R.string.importing_dictionary_desc),
 				true,
 				false
@@ -50,7 +50,7 @@ public class ImportDictionaryTask extends AsyncTask<Uri, Void, Integer> {
 		try {
 			destName = new File(dictionaryUri.getPath()).getName(); //We are supposing the URI points to a local file
 
-			if (destName == null) { //If getLastPathSegment() method above returns null, i.e. if the path is empty:
+			if (destName == null) {
 				return ERR_LOCAL_FILES_ONLY;
 			} else {
 				if (dictMg.dictionaryExists(destName)) { //If a dictionary with the same name already exists:
@@ -89,33 +89,43 @@ public class ImportDictionaryTask extends AsyncTask<Uri, Void, Integer> {
 	@Override
 	public void onPostExecute (Integer result) {
 		mDialog.cancel();
+		mDialog = null;
 
 		if (result.equals(ERR_NO_ERROR)) {
-
+			new AlertDialog.Builder(mContext)
+					.setMessage(R.string.import_successful_desc)
+					.setPositiveButton(R.string.ok_uppercase, null)
+					.setCancelable(false)
+					.create()
+					.show();
 		} else if (result.equals(ERR_LOCAL_FILES_ONLY)) {
-			Toast.makeText(
-					mContext,
-					R.string.error_local_files_only,
-					Toast.LENGTH_LONG
-			).show();
+			new AlertDialog.Builder(mContext)
+					.setMessage(R.string.error_local_files_only)
+					.setPositiveButton(R.string.ok_uppercase, null)
+					.setCancelable(false)
+					.create()
+					.show();
 		} else if (result.equals(ERR_DICTIONARY_ALREADY_EXISTS)) {
-			Toast.makeText(
-					mContext,
-					R.string.error_dictionary_already_exists,
-					Toast.LENGTH_LONG
-			).show();
+			new AlertDialog.Builder(mContext)
+					.setMessage(R.string.error_dictionary_already_exists)
+					.setPositiveButton(R.string.ok_uppercase, null)
+					.setCancelable(false)
+					.create()
+					.show();
 		} else if (result.equals(ERR_CREATE_DICTIONARY)) {
-			Toast.makeText(
-					mContext,
-					R.string.error_creating_dictionary,
-					Toast.LENGTH_LONG
-			).show();
+			new AlertDialog.Builder(mContext)
+					.setMessage(R.string.error_creating_dictionary)
+					.setPositiveButton(R.string.ok_uppercase, null)
+					.setCancelable(false)
+					.create()
+					.show();
 		} else if (result.equals(ERR_DICTIONARY_NOT_FOUND)) {
-			Toast.makeText(
-					mContext,
-					R.string.error_dictionary_not_found,
-					Toast.LENGTH_LONG
-			).show();
+			new AlertDialog.Builder(mContext)
+					.setMessage(R.string.error_dictionary_not_found)
+					.setPositiveButton(R.string.ok_uppercase, null)
+					.setCancelable(false)
+					.create()
+					.show();
 		}
 	}
 

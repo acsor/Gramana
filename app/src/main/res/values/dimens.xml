@@ -10,6 +10,7 @@
 
     <!-- Custom dimensions -->
     <dimen name="size_text_medium">20dp</dimen>
+    <dimen name="size_text_almost_medium">17dp</dimen>
 
     <dimen name="size_padding_medium">9dp</dimen>
 

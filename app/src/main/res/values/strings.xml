@@ -21,8 +21,10 @@
     </string>
     <string name="dialog_dictionary_title">Dictionaries</string>
     <string name="dictionaries">Dictionaries</string>
-    <string name="importing_dictionary">Importing dictionary</string>
+    <string name="importing_dictionary_title">Importing dictionary</string>
     <string name="importing_dictionary_desc">Wait while the dictionary is being imported…</string>
+    <string name="import_successful_title">Import successful</string>
+    <string name="import_successful_desc">Your dictionary was imported successfully.</string>
     <string name="Import">Import</string>
     <string name="no_elements">No elements</string>
     <string name="none">None</string>

@@ -21,6 +21,10 @@
         <item name="android:textViewStyle">@style/textViewStyle</item>
     </style>
 
+    <style name="alertDialogStyle" parent="">
+        <item name="android:textSize">@dimen/size_text_almost_medium</item>
+    </style>
+
     <style name="textViewStyle">
         <item name="android:textSize">@dimen/size_text_medium</item>
         <item name="android:padding">@dimen/size_padding_medium</item>
@@ -31,7 +35,7 @@
     </style>
 
     <style name="buttonStyle">
-        <item name="android:textSize">@dimen/size_text_medium</item>
+        <item name="android:textSize">@dimen/size_text_almost_medium</item>
     </style>
 
     <style name="progressBarStyle">

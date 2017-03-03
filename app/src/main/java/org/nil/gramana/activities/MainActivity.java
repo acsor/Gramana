@@ -17,9 +17,6 @@ import android.widget.Toast;
 import org.nil.gramana.R;
 import org.nil.gramana.dialogs.DictionaryDialog;
 import org.nil.gramana.threading.ImportDictionaryTask;
-import org.nil.gramana.utils.ApplicationDictionaryManager;
-
-import java.io.*;
 
 public class MainActivity extends FragmentActivity
     implements View.OnClickListener,
@@ -95,7 +92,7 @@ public class MainActivity extends FragmentActivity
 		//DictionaryDialog, whose onActivityResult() method was never invoked until now.
 		if (requestCode == DictionaryDialog.REQUEST_PICK_DICTIONARY) {
 			if (resultCode == Activity.RESULT_OK) {
-				onActivityResultDictionaryImport(intent);
+				new ImportDictionaryTask(this).execute(intent.getData());
 			}
 		}
 	}
@@ -127,10 +124,6 @@ public class MainActivity extends FragmentActivity
 		i.putExtra(PermutationsActivity.PARAM_OUT_SEP, outSep);
 
 		startActivity(i);
-	}
-
-	private void onActivityResultDictionaryImport (final Intent intent) {
-    	new ImportDictionaryTask(this).execute(intent.getData());
 	}
 
     public static class EditTextInputValidator extends PermutationsActivity.InputStringValidator {
