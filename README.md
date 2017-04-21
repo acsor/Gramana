@@ -6,4 +6,4 @@ Any dictionary can be imported, with the rule that, of any line, only the starti
 
 Below is a very scarce list of dictionaries you can find online.
 ## Dictionaries
-* [English dictionary](https://docs.oracle.com/javase/tutorial/collections/interfaces/examples/dictionary.txt).
+* [English dictionary](https://docs.oracle.com/javase/tutorial/collections/interfaces/examples/dictionary.txt). (Arguably Public Domain; see this [source](https://docs.oracle.com/javase/tutorial/collections/interfaces/map.html).)
